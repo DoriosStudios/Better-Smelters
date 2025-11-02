@@ -256,7 +256,7 @@ function pullItems(block, inv, targetSlot, type, directionMode = "frontBack") {
         sourceBlock = dim.getBlock({ x: x + input[0], y: y + input[1], z: z + input[2] });
     }
 
-    if (!sourceBlock) return;
+    if (!sourceBlock || !DoriosAPI.constants.vanillaContainers.includes(sourceBlock.typeId)) return;
     const source = sourceBlock.getComponent("minecraft:inventory")?.container;
     if (!source) return;
 
