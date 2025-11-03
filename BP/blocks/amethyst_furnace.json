@@ -22,9 +22,9 @@
 			}
 		},
 		"components": {
-			"better_smelters:furnace":{
-				"speed":15,
-				"efficiency":0.4
+			"better_smelters:furnace": {
+				"speed": 15,
+				"efficiency": 0.4
 			},
 			"minecraft:geometry": "geometry.better_smelters_basic",
 			"minecraft:material_instances": {
@@ -42,7 +42,8 @@
 			"minecraft:destructible_by_mining": {
 				"seconds_to_destroy": 1
 			},
-			"minecraft:destructible_by_explosion": false
+			"minecraft:destructible_by_explosion": false,
+			"tag:minecraft:is_pickaxe_item_destructible": {}
 		},
 		"permutations": [
 			{
