@@ -559,7 +559,7 @@ system.afterEvents.scriptEventReceive.subscribe(({ id, message }) => {
             if (!data.output || typeof data.output !== "string") continue;
 
             if (furnaceRecipes[inputId]) {
-                console.warn(`[UtilityCraft] Replaced existing furnace recipe for '${inputId}'.`);
+                console.warn(`[Better Smelters] Replaced existing furnace recipe for '${inputId}'.`);
                 replaced++;
             } else {
                 added++;
@@ -569,9 +569,9 @@ system.afterEvents.scriptEventReceive.subscribe(({ id, message }) => {
             furnaceRecipes[inputId] = data;
         }
 
-        console.warn(`[UtilityCraft] Registered ${added} new and replaced ${replaced} furnace recipes.`);
+        console.warn(`[Better Smelters] Registered ${added} new and replaced ${replaced} furnace recipes.`);
     } catch (err) {
-        console.warn("[UtilityCraft] Failed to parse furnace registration payload:", err);
+        console.warn("[Better Smelters] Failed to parse furnace registration payload:", err);
     }
 });
 

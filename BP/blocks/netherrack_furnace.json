@@ -24,7 +24,7 @@
 		"components": {
 			"better_smelters:furnace": {
 				"speed": 2,
-				"efficiency": 1
+				"infinite": true
 			},
 			"minecraft:geometry": "geometry.better_smelters_basic",
 			"minecraft:material_instances": {

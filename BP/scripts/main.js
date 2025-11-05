@@ -1,4 +1,5 @@
 import './doriosAPI/main.js'
+import './config.js'
 import { world, system, ItemStack } from '@minecraft/server'
 import { furnaceRecipes, solidFuels, baseSettings, upgrades } from './config.js'
 
@@ -28,8 +29,8 @@ system.beforeEvents.startup.subscribe(({ blockComponentRegistry }) => {
             if (!entity || entity.typeId != 'better_smelters:furnace') return
             const inv = entity.getComponent('inventory').container
 
-            pullItems(block, inv, 3, "input"); // pulls from front block
-            pullItems(block, inv, 3, "input", "leftRight"); // izquierda → input
+            pullItems(block, inv, FUELSLOT, "fuel"); // pulls from front block
+            pullItems(block, inv, INPUTSLOT, "input", "leftRight"); // izquierda → input
             pushOutput(block, inv, "leftRight");         // derecha  → output
 
             let progress = entity.getDynamicProperty('better_smelters:progress') ?? 0
@@ -134,17 +135,20 @@ system.beforeEvents.startup.subscribe(({ blockComponentRegistry }) => {
                 inputItem.amount > progressCount ? inputItem.amount -= progressCount : inputItem = undefined;
                 inv.setItem(3, inputItem);
             } else {
-                let usedFuel = speed * settings.efficiency
+                const efficiency = settings.efficiency ?? 1
+                let usedFuel = speed * efficiency
                 if (usedFuel > fuelR) { usedFuel = fuelR }
-                progress += usedFuel / settings.efficiency;
-                fuelR -= usedFuel;
+                progress += usedFuel / efficiency;
+                if (!settings.infinite) {
+                    fuelR -= usedFuel;
+                }
             }
+
 
             // Display fuel
             let fuelRValue = Math.max(0, Math.min(13, Math.ceil(13 * fuelR / fuelV))) || 0
-            if (block.typeId != "better_smelters:netherrack_furnace") {
-                entity.setDynamicProperty('better_smelters:fuelR', fuelR)
-            }
+
+            entity.setDynamicProperty('better_smelters:fuelR', fuelR)
             inv.setItem(0, new ItemStack(`better_smelters:flame_${fuelRValue}`));
 
             // Display progress

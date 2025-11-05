@@ -22,9 +22,9 @@
 			}
 		},
 		"components": {
-			"better_smelters:furnace":{
-				"speed":20,
-				"efficiency":0.2
+			"better_smelters:furnace": {
+				"speed": 20,
+				"efficiency": 0.2
 			},
 			"minecraft:geometry": "geometry.better_smelters_basic",
 			"minecraft:material_instances": {
