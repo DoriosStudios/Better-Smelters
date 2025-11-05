@@ -3,7 +3,7 @@ item.spawn_egg.entity.better_smelters:furnace.name=Spawn Furnace Entity
 entity.better_smelters:furnace.name=Furnace
 
 entity.better_smelters:oak_wood.name=Oak Wood Furnace
-entity.better_smelters:netherrack.name=§metroNetherrack Furnace
+entity.better_smelters:netherrack.name=§mNetherrack Furnace
 entity.better_smelters:copper.name=§nCopper Furnace
 entity.better_smelters:iron.name=Iron Furnace
 entity.better_smelters:gold.name=§pGold Furnace

@@ -142,7 +142,9 @@ system.beforeEvents.startup.subscribe(({ blockComponentRegistry }) => {
 
             // Display fuel
             let fuelRValue = Math.max(0, Math.min(13, Math.ceil(13 * fuelR / fuelV))) || 0
-            entity.setDynamicProperty('better_smelters:fuelR', fuelR)
+            if (block.typeId != "better_smelters:netherrack_furnace") {
+                entity.setDynamicProperty('better_smelters:fuelR', fuelR)
+            }
             inv.setItem(0, new ItemStack(`better_smelters:flame_${fuelRValue}`));
 
             // Display progress
