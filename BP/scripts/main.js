@@ -181,7 +181,7 @@ system.beforeEvents.startup.subscribe(({ blockComponentRegistry }) => {
 })
 
 world.afterEvents.playerInteractWithBlock.subscribe(e => {
-    const { block, itemStack } = e
+    const { block, itemStack, player } = e
     if (!itemStack) return
     if (!block.typeId.includes('furnace')) return
     const upgrade = upgrades[itemStack.typeId]
@@ -215,6 +215,10 @@ world.afterEvents.playerInteractWithBlock.subscribe(e => {
     block.setType(upgrade.nextF)
     block.setPermutation(block.permutation.withState('minecraft:cardinal_direction',
         `${direction}`))
+
+    if (player.isInSurvival()) {
+        player.runCommand(`clear @s ${itemStack.typeId} 0 1`)
+    }
 })
 
 // Utilidades de dirección relativas al cardinal del bloque
