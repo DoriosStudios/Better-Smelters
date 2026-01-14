@@ -19,8 +19,8 @@
 			}
 		},
 		"pattern": [
-			"MMM",
-			"MFM",
+			"MBM",
+			"BFB",
 			"MBM"
 		],
 		"result": {

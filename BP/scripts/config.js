@@ -1,5 +1,19 @@
 import { system } from "@minecraft/server";
 
+export const furnaces = [
+    "better_smelters:amethyst_furnace",
+    "better_smelters:blazing_furnace",
+    "better_smelters:copper_furnace",
+    "better_smelters:diamond_furnace",
+    "better_smelters:emerald_furnace",
+    "better_smelters:gold_furnace",
+    "better_smelters:iron_furnace",
+    "better_smelters:nether_star_furnace",
+    "better_smelters:netherite_furnace",
+    "better_smelters:netherrack_furnace",
+    "better_smelters:oak_wood_furnace"
+];
+
 export const upgrades = {
     'better_smelters:upgrade_to_iron': {
         initialF: 'minecraft:furnace', nextF: 'better_smelters:iron_furnace'

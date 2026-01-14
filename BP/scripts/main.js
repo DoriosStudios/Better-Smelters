@@ -1,11 +1,26 @@
 import './doriosAPI/main.js'
 import './config.js'
 import { world, system, ItemStack } from '@minecraft/server'
-import { furnaceRecipes, solidFuels, baseSettings, upgrades } from './config.js'
+import { furnaceRecipes, solidFuels, baseSettings, upgrades, furnaces } from './config.js'
 
 const FUELSLOT = 2
 const INPUTSLOT = 3
 const OUTPUTSLOT = 4
+
+
+
+const slotFurnaces = Object.fromEntries(
+    furnaces.map(id => [
+        id,
+        { "Input Slot": INPUTSLOT, "Fuel Slot": FUELSLOT }
+    ])
+);
+world.afterEvents.worldLoad.subscribe(e => {
+    system.sendScriptEvent(
+        "utilitycraft:register_special_container_slots",
+        JSON.stringify(slotFurnaces)
+    );
+})
 
 system.beforeEvents.startup.subscribe(({ blockComponentRegistry }) => {
     blockComponentRegistry.registerCustomComponent("better_smelters:furnace", {
@@ -119,8 +134,8 @@ system.beforeEvents.startup.subscribe(({ blockComponentRegistry }) => {
                 }
                 dim.spawnParticle('minecraft:basic_smoke_particle', { x: px, y: py + 0.1, z: pz });
             }
-
             const baseCost = baseSettings.baseCost
+            const efficiency = settings.efficiency ?? 1
             if (progress >= baseCost) {
                 let progressCount = Math.min(inputItem.amount, Math.floor(progress / baseCost))
                 if (outputItem) {
@@ -132,10 +147,10 @@ system.beforeEvents.startup.subscribe(({ blockComponentRegistry }) => {
                     inv.setItem(4, new ItemStack(recipe.output, progressCount));
                 }
                 progress -= progressCount * baseCost;
+                if (block.typeId == 'better_smelters:nether_star_furnace') progress /= progressCount
                 inputItem.amount > progressCount ? inputItem.amount -= progressCount : inputItem = undefined;
                 inv.setItem(3, inputItem);
             } else {
-                const efficiency = settings.efficiency ?? 1
                 let usedFuel = speed * efficiency
                 if (usedFuel > fuelR) { usedFuel = fuelR }
                 progress += usedFuel / efficiency;
@@ -152,6 +167,7 @@ system.beforeEvents.startup.subscribe(({ blockComponentRegistry }) => {
             inv.setItem(0, new ItemStack(`better_smelters:flame_${fuelRValue}`));
 
             // Display progress
+            if (progress < 0) progress = 0
             let progressValue = Math.max(0, Math.min(16, Math.ceil(16 * progress / baseCost)));
             inv.setItem(1, new ItemStack(`better_smelters:arrow_right_${progressValue}`));
 
@@ -317,3 +333,62 @@ function pushOutput(block, inv, directionMode = "frontBack") {
     } catch { }
 }
 
+
+/**
+ * ==================================================
+ * Better Smelters - Furnace Destruction Event
+ * ==================================================
+ *
+ * ScriptEvent ID: `better_smelters:destroyFurnace`
+ *
+ * Example usage:
+ * ```mcfunction
+ * /scriptevent better_smelters:destroyFurnace 120,65,-48
+ * ```
+ *
+ * ## Behavior:
+ * - Parses coordinates from the message payload.
+ * - Locates the block and its associated furnace entity.
+ * - Drops items from slots 2, 3, and 4 only.
+ * - Removes the entity.
+ * - Destroys the block using `fill air destroy` to ensure proper item drops.
+ * ==================================================
+ */
+system.afterEvents.scriptEventReceive.subscribe(event => {
+    const { id, message, sourceEntity } = event
+    if (id !== 'dorios:destroyFurnace') return
+
+    try {
+        const [x, y, z] = message.split(',').map(Number)
+        if (isNaN(x) || isNaN(y) || isNaN(z)) {
+            console.warn(`[better_smelters:destroyFurnace] Invalid coordinates: ${message}`)
+            return
+        }
+
+        const dim = sourceEntity?.dimension ?? world.getDimension('overworld')
+        const block = dim.getBlock({ x, y, z })
+        if (!block) return
+
+        const entity = dim.getEntitiesAtBlockLocation(block.center())[0]
+        if (!entity || entity.typeId !== 'better_smelters:furnace') return
+
+        const inv = entity.getComponent('minecraft:inventory')?.container
+        if (inv) {
+            system.run(() => {
+                // Drop only the main usable items
+                if (inv.getItem(2)) dim.spawnItem(inv.getItem(2), { x: x + 0.5, y: y + 0.25, z: z + 0.5 })
+                if (inv.getItem(3)) dim.spawnItem(inv.getItem(3), { x: x + 0.5, y: y + 0.25, z: z + 0.5 })
+                if (inv.getItem(4)) dim.spawnItem(inv.getItem(4), { x: x + 0.5, y: y + 0.25, z: z + 0.5 })
+
+                // Remove the linked entity
+                entity.remove()
+
+                // Properly destroy the block (with item drops)
+                dim.runCommand(`fill ${x} ${y} ${z} ${x} ${y} ${z} air destroy`)
+            })
+        }
+
+    } catch (err) {
+        console.warn(`[better_smelters:destroyFurnace] Error: ${err}`)
+    }
+})
