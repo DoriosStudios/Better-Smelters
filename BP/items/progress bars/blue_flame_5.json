@@ -8,7 +8,12 @@
             }
         },
         "components": {
-            "minecraft:icon": "better_smelters_blue_flame_5"
+            "minecraft:icon": "better_smelters_blue_flame_5",
+            "minecraft:tags": {
+                "tags": [
+                    "utilitycraft:ui_element"
+                ]
+            }
         }
     }
 }
