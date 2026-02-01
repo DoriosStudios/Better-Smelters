@@ -8,7 +8,7 @@
 	},
 	"header": {
 		"name": "Better Smelters",
-		"description": "1.4.0 §6Dorios Studios",
+		"description": "1.4.1 §6Dorios Studios",
 		"min_engine_version": [
 			1,
 			21,
@@ -17,7 +17,7 @@
 		"uuid": "3c4d1777-6e8b-4cbe-a2fc-b8ef2e351f9d",
 		"version": [
 			1,
-			3,
+			4,
 			0
 		]
 	},
@@ -27,7 +27,7 @@
 			"uuid": "01f9ae75-dda4-4a75-b2da-85b41b856982",
 			"version": [
 				1,
-				3,
+				4,
 				0
 			]
 		},
@@ -38,7 +38,7 @@
 			"entry": "scripts/main.js",
 			"version": [
 				1,
-				3,
+				4,
 				0
 			]
 		}
@@ -48,7 +48,7 @@
 			"uuid": "be207038-b363-47c0-af9f-f400e928db8a",
 			"version": [
 				1,
-				3,
+				4,
 				0
 			]
 		},

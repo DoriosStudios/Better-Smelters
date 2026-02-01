@@ -21,7 +21,8 @@
 				"family": [
 					"furnace",
 					"dorios:container",
-					"dorios:simple_input"
+					"dorios:simple_input",
+					"dorios:simple_output"
 				]
 			},
 			"minecraft:fire_immune": true,
