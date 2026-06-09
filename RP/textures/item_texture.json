@@ -53,6 +53,24 @@
 		"better_smelters_arrow_right_16": {
 			"textures": "textures/items/arrow_right_16"
 		},
+		"better_smelters_arrow_right_17": {
+			"textures": "textures/items/arrow_right_17"
+		},
+		"better_smelters_arrow_right_18": {
+			"textures": "textures/items/arrow_right_18"
+		},
+		"better_smelters_arrow_right_19": {
+			"textures": "textures/items/arrow_right_19"
+		},
+		"better_smelters_arrow_right_20": {
+			"textures": "textures/items/arrow_right_20"
+		},
+		"better_smelters_arrow_right_21": {
+			"textures": "textures/items/arrow_right_21"
+		},
+		"better_smelters_arrow_right_22": {
+			"textures": "textures/items/arrow_right_22"
+		},
 		"better_smelters_blue_flame_0": {
 			"textures": "textures/items/blue_flame_0"
 		},

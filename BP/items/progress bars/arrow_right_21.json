@@ -1,0 +1,19 @@
+{
+    "format_version": "1.20.80",
+    "minecraft:item": {
+        "description": {
+            "identifier": "better_smelters:arrow_right_21",
+            "menu_category": {
+                "category": "none"
+            }
+        },
+        "components": {
+            "minecraft:icon": "better_smelters_arrow_right_21",
+            "minecraft:tags": {
+                "tags": [
+                    "utilitycraft:ui_element"
+                ]
+            }
+        }
+    }
+}

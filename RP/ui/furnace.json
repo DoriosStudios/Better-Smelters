@@ -31,7 +31,23 @@
                         -18,
                         30
                     ],
-                    "collection_index": 0
+                    "collection_index": 0,
+                    "size": [
+                        18,
+                        18
+                    ],
+                    "$cell_image_size": [
+                        18,
+                        18
+                    ],
+                    "$item_renderer_panel_size": [
+                        18,
+                        18
+                    ],
+                    "$item_renderer_size": [
+                        16,
+                        16
+                    ]
                 }
             },
             {
@@ -39,8 +55,8 @@
                     "anchor_from": "top_middle",
                     "anchor_to": "top_middle",
                     "offset": [
-                        11,
-                        30
+                        10,
+                        22
                     ],
                     "collection_index": 1
                 }

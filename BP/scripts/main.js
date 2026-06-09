@@ -1,262 +1,251 @@
-import './doriosAPI/main.js'
-import './config.js'
-import { world, system, ItemStack } from '@minecraft/server'
-import { furnaceRecipes, solidFuels, baseSettings, upgrades, furnaces } from './config.js'
+import "./DoriosAPI/index.js";
+import "./config.js";
+import { world, system, ItemStack } from "@minecraft/server";
+import { furnaceRecipes, solidFuels, baseSettings, upgrades, furnaces } from "./config.js";
 
-const FUELSLOT = 2
-const INPUTSLOT = 3
-const OUTPUTSLOT = 4
+const FUELSLOT = 2;
+const INPUTSLOT = 3;
+const OUTPUTSLOT = 4;
 
-
-
-const slotFurnaces = Object.fromEntries(
-    furnaces.map(id => [
-        id,
-        { "Input Slot": INPUTSLOT, "Fuel Slot": FUELSLOT }
-    ])
-);
-world.afterEvents.worldLoad.subscribe(e => {
-    system.sendScriptEvent(
-        "utilitycraft:register_special_container_slots",
-        JSON.stringify(slotFurnaces)
-    );
-})
+const slotFurnaces = Object.fromEntries(furnaces.map((id) => [id, { "Input Slot": INPUTSLOT, "Fuel Slot": FUELSLOT }]));
+world.afterEvents.worldLoad.subscribe((e) => {
+  system.sendScriptEvent("utilitycraft:register_special_container_slots", JSON.stringify(slotFurnaces));
+});
 
 system.beforeEvents.startup.subscribe(({ blockComponentRegistry }) => {
-    blockComponentRegistry.registerCustomComponent("better_smelters:furnace", {
-        onPlace({ block }) {
-            let { x, y, z } = block.location
-            y += 0.250, x += 0.5, z += 0.5
-            const entity = block.dimension.spawnEntity('better_smelters:furnace', { x, y, z })
-            const inv = entity.getComponent('minecraft:inventory')?.container;
-            const tier = block.typeId.split(':')[1].split('_furnace')[0]
-            entity.nameTag = `entity.better_smelters:${tier}.name`
+  blockComponentRegistry.registerCustomComponent("better_smelters:furnace", {
+    onPlace({ block }) {
+      let { x, y, z } = block.location;
+      ((y += 0.25), (x += 0.5), (z += 0.5));
+      const entity = block.dimension.spawnEntity("better_smelters:furnace", { x, y, z });
+      const inv = entity.getComponent("minecraft:inventory")?.container;
+      const tier = block.typeId.split(":")[1].split("_furnace")[0];
+      entity.nameTag = `entity.better_smelters:${tier}.name`;
 
-            inv.setItem(0, new ItemStack('better_smelters:flame_0', 1))
-            inv.setItem(1, new ItemStack('better_smelters:arrow_right_0', 1))
+      inv.setItem(0, new ItemStack("better_smelters:flame_0", 1));
+      inv.setItem(1, new ItemStack("better_smelters:arrow_right_0", 1));
 
-            entity.setDynamicProperty('better_smelters:fuelR', 0)
-            entity.setDynamicProperty('better_smelters:fuelV', 0)
-            entity.setDynamicProperty('better_smelters:progress', 0)
-        },
-        onTick({ block }, { params: settings }) {
-            const entity = block.dimension.getEntitiesAtBlockLocation(block.center())[0]
-            if (!entity || entity.typeId != 'better_smelters:furnace') return
-            const inv = entity.getComponent('inventory').container
+      entity.setDynamicProperty("better_smelters:fuelR", 0);
+      entity.setDynamicProperty("better_smelters:fuelV", 0);
+      entity.setDynamicProperty("better_smelters:progress", 0);
+    },
+    onTick({ block }, { params: settings }) {
+      const entity = block.dimension.getEntitiesAtBlockLocation(block.center())[0];
+      if (!entity || entity.typeId != "better_smelters:furnace") return;
+      const inv = entity.getComponent("inventory").container;
 
-            pullItems(block, inv, FUELSLOT, "fuel"); // pulls from front block
-            pullItems(block, inv, INPUTSLOT, "input", "leftRight"); // izquierda → input
-            pushOutput(block, inv, "leftRight");         // derecha  → output
+      pullItems(block, inv, FUELSLOT, "fuel"); // pulls from front block
+      pullItems(block, inv, INPUTSLOT, "input", "leftRight"); // izquierda → input
+      pushOutput(block, inv, "leftRight"); // derecha  → output
 
-            let progress = entity.getDynamicProperty('better_smelters:progress') ?? 0
-            let fuelV = entity.getDynamicProperty('better_smelters:fuelV') ?? 0
-            let fuelR = entity.getDynamicProperty('better_smelters:fuelR') ?? 0
+      let progress = entity.getDynamicProperty("better_smelters:progress") ?? 0;
+      let fuelV = entity.getDynamicProperty("better_smelters:fuelV") ?? 0;
+      let fuelR = entity.getDynamicProperty("better_smelters:fuelR") ?? 0;
 
-            let speed = 2.5 * baseSettings.baseSpeed * (settings.speed ?? 1)
+      let speed = 2.5 * baseSettings.baseSpeed * (settings.speed ?? 1);
 
-            let inputItem = inv.getItem(INPUTSLOT)
-            let fuelItem = inv.getItem(FUELSLOT)
-            let outputItem = inv.getItem(OUTPUTSLOT)
-            const recipe = furnaceRecipes[inputItem?.typeId]
+      let inputItem = inv.getItem(INPUTSLOT);
+      let fuelItem = inv.getItem(FUELSLOT);
+      let outputItem = inv.getItem(OUTPUTSLOT);
+      const recipe = furnaceRecipes[inputItem?.typeId];
 
-            if (!recipe || outputItem?.amount >= (outputItem?.maxAmount ?? 64)) {
-                inv.setItem(1, new ItemStack('better_smelters:arrow_right_0', 1))
-                entity.setDynamicProperty('better_smelters:progress', 0)
-                block?.setPermutation(block?.permutation.withState('better_smelters:on', false))
-                return;
-            }
+      if (!recipe || outputItem?.amount >= (outputItem?.maxAmount ?? 64)) {
+        inv.setItem(1, new ItemStack("better_smelters:arrow_right_0", 1));
+        entity.setDynamicProperty("better_smelters:progress", 0);
+        block?.setPermutation(block?.permutation.withState("better_smelters:on", false));
+        return;
+      }
 
-            if (outputItem && outputItem?.typeId != recipe.output) {
-                inv.setItem(1, new ItemStack('better_smelters:arrow_right_0', 1))
-                entity.setDynamicProperty('better_smelters:progress', 0)
-                block?.setPermutation(block?.permutation.withState('better_smelters:on', false))
-                return;
-            }
+      if (outputItem && outputItem?.typeId != recipe.output) {
+        inv.setItem(1, new ItemStack("better_smelters:arrow_right_0", 1));
+        entity.setDynamicProperty("better_smelters:progress", 0);
+        block?.setPermutation(block?.permutation.withState("better_smelters:on", false));
+        return;
+      }
 
-            if (fuelR == 0) {
-                entity.setDynamicProperty('better_smelters:fuelR', 0)
-                inv.setItem(0, new ItemStack('better_smelters:flame_0', 1))
-                if (fuelItem) {
-                    const fuelData = solidFuels.find(fuel => fuelItem.typeId.includes(fuel.id))
-                    if (fuelData) {
-                        speed = Math.min(fuelData.value / 10, speed)
-                        fuelR = fuelData.value / 10
-                        fuelItem.amount > 1 ? fuelItem.amount -= 1 : fuelItem = undefined;
-                        inv.setItem(2, fuelItem);
-                        if (fuelData.transformToItem) inv.setItem(2, new ItemStack(fuelData.transformToItem, 1))
-                        entity.setDynamicProperty('better_smelters:fuelV', fuelData.value / 10)
-                    } else {
-                        block?.setPermutation(block?.permutation.withState('better_smelters:on', false))
-                        return
-                    }
-                } else {
-                    block?.setPermutation(block?.permutation.withState('better_smelters:on', false))
-                    return
-                }
-            }
+      if (fuelR == 0) {
+        entity.setDynamicProperty("better_smelters:fuelR", 0);
+        inv.setItem(0, new ItemStack("better_smelters:flame_0", 1));
+        if (fuelItem) {
+          const fuelData = solidFuels.find((fuel) => fuelItem.typeId.includes(fuel.id));
+          if (fuelData) {
+            speed = Math.min(fuelData.value / 10, speed);
+            fuelR = fuelData.value / 10;
+            fuelItem.amount > 1 ? (fuelItem.amount -= 1) : (fuelItem = undefined);
+            inv.setItem(2, fuelItem);
+            if (fuelData.transformToItem) inv.setItem(2, new ItemStack(fuelData.transformToItem, 1));
+            entity.setDynamicProperty("better_smelters:fuelV", fuelData.value / 10);
+          } else {
+            block?.setPermutation(block?.permutation.withState("better_smelters:on", false));
+            return;
+          }
+        } else {
+          block?.setPermutation(block?.permutation.withState("better_smelters:on", false));
+          return;
+        }
+      }
 
-            // Facing direction
-            const { x, y, z } = block.location;
+      // Facing direction
+      const { x, y, z } = block.location;
 
-            // Base center position
-            let px = x + 0.5;
-            let py = y + 0.4; // altura visual buena para salida frontal
-            let pz = z + 0.5;
+      // Base center position
+      let px = x + 0.5;
+      let py = y + 0.4; // altura visual buena para salida frontal
+      let pz = z + 0.5;
 
-            if (Math.random() > 0.9) {
-                const facing = block.permutation.getState('minecraft:cardinal_direction');
-                // Offsets para colocar la partícula justo al frente
-                const facingOffsets = {
-                    north: [0, 0, -0.501],
-                    south: [0, 0, 0.501],
-                    west: [-0.501, 0, 0],
-                    east: [0.501, 0, 0],
-                };
+      if (Math.random() > 0.9) {
+        const facing = block.permutation.getState("minecraft:cardinal_direction");
+        // Offsets para colocar la partícula justo al frente
+        const facingOffsets = {
+          north: [0, 0, -0.501],
+          south: [0, 0, 0.501],
+          west: [-0.501, 0, 0],
+          east: [0.501, 0, 0],
+        };
 
-                const offset = facingOffsets[facing];
-                if (offset) {
-                    px += offset[0];
-                    py += offset[1];
-                    pz += offset[2];
-                }
+        const offset = facingOffsets[facing];
+        if (offset) {
+          px += offset[0];
+          py += offset[1];
+          pz += offset[2];
+        }
 
-                // Pequeño movimiento aleatorio para simular variación de humo/flama
-                px += (Math.random() - 0.5) * 0.2;
-                py += Math.random() * 0.1;
-                pz += (Math.random() - 0.5) * 0.2;
+        // Pequeño movimiento aleatorio para simular variación de humo/flama
+        px += (Math.random() - 0.5) * 0.2;
+        py += Math.random() * 0.1;
+        pz += (Math.random() - 0.5) * 0.2;
 
-                // Spawn de partículas exactamente al frente
-                const dim = block.dimension;
-                if (block.typeId.includes('netherite')) {
-                    dim.spawnParticle('minecraft:blue_flame_particle', { x: px, y: py, z: pz });
-                } else {
-                    dim.spawnParticle('minecraft:basic_flame_particle', { x: px, y: py, z: pz });
-                }
-                dim.spawnParticle('minecraft:basic_smoke_particle', { x: px, y: py + 0.1, z: pz });
-            }
-            const baseCost = baseSettings.baseCost
-            const efficiency = settings.efficiency ?? 1
-            if (progress >= baseCost) {
-                let progressCount = Math.min(inputItem.amount, Math.floor(progress / baseCost))
-                if (outputItem) {
-                    if (block.typeId == 'better_smelters:nether_star_furnace') progressCount = Math.min(inputItem.amount, 64 - outputItem.amount)
-                    outputItem.amount += progressCount
-                    inv.setItem(4, outputItem)
-                } else {
-                    if (block.typeId == 'better_smelters:nether_star_furnace') progressCount = inputItem.amount
-                    inv.setItem(4, new ItemStack(recipe.output, progressCount));
-                }
-                progress -= progressCount * baseCost;
-                if (block.typeId == 'better_smelters:nether_star_furnace') progress /= progressCount
-                inputItem.amount > progressCount ? inputItem.amount -= progressCount : inputItem = undefined;
-                inv.setItem(3, inputItem);
-            } else {
-                let usedFuel = speed * efficiency
-                if (usedFuel > fuelR) { usedFuel = fuelR }
-                progress += usedFuel / efficiency;
-                if (!settings.infinite) {
-                    fuelR -= usedFuel;
-                }
-            }
+        // Spawn de partículas exactamente al frente
+        const dim = block.dimension;
+        if (block.typeId.includes("netherite")) {
+          dim.spawnParticle("minecraft:blue_flame_particle", { x: px, y: py, z: pz });
+        } else {
+          dim.spawnParticle("minecraft:basic_flame_particle", { x: px, y: py, z: pz });
+        }
+        dim.spawnParticle("minecraft:basic_smoke_particle", { x: px, y: py + 0.1, z: pz });
+      }
+      const baseCost = baseSettings.baseCost;
+      const efficiency = settings.efficiency ?? 1;
+      if (progress >= baseCost) {
+        let progressCount = Math.min(inputItem.amount, Math.floor(progress / baseCost));
+        if (outputItem) {
+          if (block.typeId == "better_smelters:nether_star_furnace") progressCount = Math.min(inputItem.amount, 64 - outputItem.amount);
+          outputItem.amount += progressCount;
+          inv.setItem(4, outputItem);
+        } else {
+          if (block.typeId == "better_smelters:nether_star_furnace") progressCount = inputItem.amount;
+          inv.setItem(4, new ItemStack(recipe.output, progressCount));
+        }
+        progress -= progressCount * baseCost;
+        if (block.typeId == "better_smelters:nether_star_furnace") progress /= progressCount;
+        inputItem.amount > progressCount ? (inputItem.amount -= progressCount) : (inputItem = undefined);
+        inv.setItem(3, inputItem);
+      } else {
+        let usedFuel = speed * efficiency;
+        if (usedFuel > fuelR) {
+          usedFuel = fuelR;
+        }
+        progress += usedFuel / efficiency;
+        if (!settings.infinite) {
+          fuelR -= usedFuel;
+        }
+      }
 
+      // Display fuel
+      let fuelRValue = Math.max(0, Math.min(13, Math.ceil((13 * fuelR) / fuelV))) || 0;
 
-            // Display fuel
-            let fuelRValue = Math.max(0, Math.min(13, Math.ceil(13 * fuelR / fuelV))) || 0
+      entity.setDynamicProperty("better_smelters:fuelR", fuelR);
+      inv.setItem(0, new ItemStack(`better_smelters:flame_${fuelRValue}`));
 
-            entity.setDynamicProperty('better_smelters:fuelR', fuelR)
-            inv.setItem(0, new ItemStack(`better_smelters:flame_${fuelRValue}`));
+      // Display progress
+      if (progress < 0) progress = 0;
+      let progressValue = Math.max(0, Math.min(22, Math.floor((22 * progress) / baseCost)));
+      inv.setItem(1, new ItemStack(`better_smelters:arrow_right_${progressValue}`));
 
-            // Display progress
-            if (progress < 0) progress = 0
-            let progressValue = Math.max(0, Math.min(16, Math.ceil(16 * progress / baseCost)));
-            inv.setItem(1, new ItemStack(`better_smelters:arrow_right_${progressValue}`));
+      block?.setPermutation(block?.permutation.withState("better_smelters:on", true));
+      entity.setDynamicProperty("better_smelters:progress", progress);
 
-            block?.setPermutation(block?.permutation.withState('better_smelters:on', true))
-            entity.setDynamicProperty('better_smelters:progress', progress)
+      if (block.typeId == "better_smelters:oak_wood_furnace" && Math.random() > 0.99) {
+        block.setType("air");
+        if (inv.getItem(2)) block.dimension.spawnItem(inv.getItem(2), { x, y, z });
+        if (inv.getItem(3)) block.dimension.spawnItem(inv.getItem(3), { x, y, z });
+        if (inv.getItem(4)) block.dimension.spawnItem(inv.getItem(4), { x, y, z });
+        entity.remove();
+      }
+    },
+    onPlayerBreak({ block }) {
+      let { x, y, z } = block.location;
+      ((x += 0.5), (z += 0.5), (y += 0.25));
+      const ent = block.dimension.getEntitiesAtBlockLocation(block.center())[0];
+      if (!ent) return;
+      const inv = ent.getComponent("minecraft:inventory").container;
 
-            if (block.typeId == 'better_smelters:oak_wood_furnace' && Math.random() > 0.99) {
-                block.setType('air')
-                if (inv.getItem(2)) block.dimension.spawnItem(inv.getItem(2), { x, y, z })
-                if (inv.getItem(3)) block.dimension.spawnItem(inv.getItem(3), { x, y, z })
-                if (inv.getItem(4)) block.dimension.spawnItem(inv.getItem(4), { x, y, z })
-                entity.remove()
-            }
-        },
-        onPlayerBreak({ block }) {
-            let { x, y, z } = block.location
-            x += 0.5, z += 0.5, y += 0.250
-            const ent = block.dimension.getEntitiesAtBlockLocation(block.center())[0]
-            if (!ent) return
-            const inv = ent.getComponent('minecraft:inventory').container
+      system.run(() => {
+        if (inv.getItem(2)) block.dimension.spawnItem(inv.getItem(2), { x, y, z });
+        if (inv.getItem(3)) block.dimension.spawnItem(inv.getItem(3), { x, y, z });
+        if (inv.getItem(4)) block.dimension.spawnItem(inv.getItem(4), { x, y, z });
+        ent.remove();
+      });
+    },
+    onPlayerInteract() {},
+  });
+});
 
-            system.run(() => {
-                if (inv.getItem(2)) block.dimension.spawnItem(inv.getItem(2), { x, y, z })
-                if (inv.getItem(3)) block.dimension.spawnItem(inv.getItem(3), { x, y, z })
-                if (inv.getItem(4)) block.dimension.spawnItem(inv.getItem(4), { x, y, z })
-                ent.remove()
-            });
-        },
-        onPlayerInteract() { }
-    })
-})
+world.afterEvents.playerInteractWithBlock.subscribe((e) => {
+  const { block, itemStack, player } = e;
+  if (!itemStack) return;
+  if (!block.typeId.includes("furnace")) return;
+  const upgrade = upgrades[itemStack.typeId];
+  if (!upgrade) return;
 
-world.afterEvents.playerInteractWithBlock.subscribe(e => {
-    const { block, itemStack, player } = e
-    if (!itemStack) return
-    if (!block.typeId.includes('furnace')) return
-    const upgrade = upgrades[itemStack.typeId]
-    if (!upgrade) return
+  if (block.typeId != upgrade.initialF) return;
 
-    if (block.typeId != upgrade.initialF) return
+  const direction = block.permutation.getState("minecraft:cardinal_direction");
 
-    const direction = block.permutation.getState('minecraft:cardinal_direction')
+  if (itemStack.typeId == "better_smelters:upgrade_to_copper" || itemStack.typeId == "better_smelters:upgrade_to_iron") {
+    const furnace = block.getComponent("minecraft:inventory").container;
+    let { x, y, z } = block.location;
+    ((y += 0.25), (x += 0.5), (z += 0.5));
 
-    if (itemStack.typeId == 'better_smelters:upgrade_to_copper' || itemStack.typeId == 'better_smelters:upgrade_to_iron') {
-        const furnace = block.getComponent('minecraft:inventory').container
-        let { x, y, z } = block.location
-        y += 0.250, x += 0.5, z += 0.5
+    const entity = block.dimension.spawnEntity("better_smelters:furnace", { x, y, z });
+    const inv = entity.getComponent("minecraft:inventory")?.container;
+    const tier = upgrade.nextF.split(":")[1].split("_furnace")[0];
+    entity.nameTag = `entity.better_smelters:${tier}.name`;
 
-        const entity = block.dimension.spawnEntity('better_smelters:furnace', { x, y, z })
-        const inv = entity.getComponent('minecraft:inventory')?.container;
-        const tier = upgrade.nextF.split(':')[1].split('_furnace')[0]
-        entity.nameTag = `entity.better_smelters:${tier}.name`
+    inv.setItem(0, new ItemStack("better_smelters:flame_0", 1));
+    inv.setItem(1, new ItemStack("better_smelters:arrow_right_0", 1));
+    furnace.moveItem(1, 2, inv);
+    furnace.moveItem(0, 3, inv);
+    furnace.moveItem(2, 4, inv);
 
-        inv.setItem(0, new ItemStack('better_smelters:flame_0', 1))
-        inv.setItem(1, new ItemStack('better_smelters:arrow_right_0', 1))
-        furnace.moveItem(1, 2, inv)
-        furnace.moveItem(0, 3, inv)
-        furnace.moveItem(2, 4, inv)
+    entity.setDynamicProperty("better_smelters:fuelR", 0);
+    entity.setDynamicProperty("better_smelters:fuelV", 0);
+    entity.setDynamicProperty("better_smelters:progress", 0);
+  }
 
-        entity.setDynamicProperty('better_smelters:fuelR', 0)
-        entity.setDynamicProperty('better_smelters:fuelV', 0)
-        entity.setDynamicProperty('better_smelters:progress', 0)
-    }
+  block.setType(upgrade.nextF);
+  block.setPermutation(block.permutation.withState("minecraft:cardinal_direction", `${direction}`));
 
-    block.setType(upgrade.nextF)
-    block.setPermutation(block.permutation.withState('minecraft:cardinal_direction',
-        `${direction}`))
-
-    if (player.isInSurvival()) {
-        player.runCommand(`clear @s ${itemStack.typeId} 0 1`)
-    }
-})
+  if (player.isInSurvival()) {
+    player.runCommand(`clear @s ${itemStack.typeId} 0 1`);
+  }
+});
 
 // Utilidades de dirección relativas al cardinal del bloque
 function getOffsetsByMode(block, directionMode) {
-    const facing = block.permutation.getState("minecraft:cardinal_direction");
-    const base = {
-        north: { front: [0, 0, 1], back: [0, 0, -1], left: [1, 0, 0], right: [-1, 0, 0] },
-        south: { front: [0, 0, -1], back: [0, 0, 1], left: [-1, 0, 0], right: [1, 0, 0] },
-        west: { front: [1, 0, 0], back: [-1, 0, 0], left: [0, 0, -1], right: [0, 0, 1] },
-        east: { front: [-1, 0, 0], back: [1, 0, 0], left: [0, 0, 1], right: [0, 0, -1] },
-    }[facing];
+  const facing = block.permutation.getState("minecraft:cardinal_direction");
+  const base = {
+    north: { front: [0, 0, 1], back: [0, 0, -1], left: [1, 0, 0], right: [-1, 0, 0] },
+    south: { front: [0, 0, -1], back: [0, 0, 1], left: [-1, 0, 0], right: [1, 0, 0] },
+    west: { front: [1, 0, 0], back: [-1, 0, 0], left: [0, 0, -1], right: [0, 0, 1] },
+    east: { front: [-1, 0, 0], back: [1, 0, 0], left: [0, 0, 1], right: [0, 0, -1] },
+  }[facing];
 
-
-    // Modo por defecto: frente = input, atrás = output
-    if (directionMode === "leftRight") {
-        return { input: base.left, output: base.right };
-    }
-    return { input: base.front, output: base.back };
+  // Modo por defecto: frente = input, atrás = output
+  if (directionMode === "leftRight") {
+    return { input: base.left, output: base.right };
+  }
+  return { input: base.front, output: base.back };
 }
 
 /**
@@ -269,46 +258,47 @@ function getOffsetsByMode(block, directionMode) {
  * @param {"frontBack"|"leftRight"} [directionMode="frontBack"]
  */
 function pullItems(block, inv, targetSlot, type, directionMode = "frontBack") {
-    const dim = block.dimension;
-    const slotItem = inv.getItem(targetSlot);
+  const dim = block.dimension;
+  const slotItem = inv.getItem(targetSlot);
 
-    let sourceBlock;
-    if (type === "fuel") {
-        const { x, y, z } = block.location;
-        sourceBlock = dim.getBlock({ x, y: y + 1, z }); // arriba
+  let sourceBlock;
+  if (type === "fuel") {
+    const { x, y, z } = block.location;
+    sourceBlock = dim.getBlock({ x, y: y + 1, z }); // arriba
+  } else {
+    const { input } = getOffsetsByMode(block, directionMode);
+    const { x, y, z } = block.location;
+    sourceBlock = dim.getBlock({ x: x + input[0], y: y + input[1], z: z + input[2] });
+  }
+
+  if (!sourceBlock || !DoriosAPI.constants.vanillaContainers.includes(sourceBlock.typeId)) return;
+  const source = sourceBlock.getComponent("minecraft:inventory")?.container;
+  if (!source) return;
+
+  for (let i = 0; i < source.size; i++) {
+    let item = source.getItem(i);
+    if (!item) continue;
+
+    if (slotItem && item.typeId !== slotItem.typeId) continue;
+
+    const canMove = Math.min(item.amount, 64 - (slotItem?.amount ?? 0));
+    if (canMove <= 0) continue;
+
+    if (item.amount > canMove) item.amount -= canMove;
+    else item = undefined;
+
+    if (slotItem) {
+      slotItem.amount += canMove;
+      inv.setItem(targetSlot, slotItem);
     } else {
-        const { input } = getOffsetsByMode(block, directionMode);
-        const { x, y, z } = block.location;
-        sourceBlock = dim.getBlock({ x: x + input[0], y: y + input[1], z: z + input[2] });
+      const placed = source.getItem(i);
+      placed.amount = canMove;
+      inv.setItem(targetSlot, placed);
     }
 
-    if (!sourceBlock || !DoriosAPI.constants.vanillaContainers.includes(sourceBlock.typeId)) return;
-    const source = sourceBlock.getComponent("minecraft:inventory")?.container;
-    if (!source) return;
-
-    for (let i = 0; i < source.size; i++) {
-        let item = source.getItem(i);
-        if (!item) continue;
-
-        if (slotItem && item.typeId !== slotItem.typeId) continue;
-
-        const canMove = Math.min(item.amount, 64 - (slotItem?.amount ?? 0));
-        if (canMove <= 0) continue;
-
-        if (item.amount > canMove) item.amount -= canMove; else item = undefined;
-
-        if (slotItem) {
-            slotItem.amount += canMove;
-            inv.setItem(targetSlot, slotItem);
-        } else {
-            const placed = source.getItem(i);
-            placed.amount = canMove;
-            inv.setItem(targetSlot, placed);
-        }
-
-        source.setItem(i, item);
-        break;
-    }
+    source.setItem(i, item);
+    break;
+  }
 }
 
 /**
@@ -320,19 +310,18 @@ function pullItems(block, inv, targetSlot, type, directionMode = "frontBack") {
  * @param {"frontBack"|"leftRight"} [directionMode="frontBack"] Directional mode.
  */
 function pushOutput(block, inv, directionMode = "frontBack") {
-    const dim = block.dimension;
+  const dim = block.dimension;
 
-    // Determinar dirección de salida
-    const { output } = getOffsetsByMode(block, directionMode);
-    const { x, y, z } = block.location;
-    const targetLoc = { x: x + output[0], y: y + output[1], z: z + output[2] };
+  // Determinar dirección de salida
+  const { output } = getOffsetsByMode(block, directionMode);
+  const { x, y, z } = block.location;
+  const targetLoc = { x: x + output[0], y: y + output[1], z: z + output[2] };
 
-    // Transferir ítems usando DoriosAPI
-    try {
-        DoriosAPI.containers.transferItemsAt(inv, targetLoc, dim, OUTPUTSLOT);
-    } catch { }
+  // Transferir ítems usando DoriosAPI
+  try {
+    DoriosAPI.containers.transferItemsAt(inv, targetLoc, dim, OUTPUTSLOT);
+  } catch {}
 }
-
 
 /**
  * ==================================================
@@ -354,41 +343,55 @@ function pushOutput(block, inv, directionMode = "frontBack") {
  * - Destroys the block using `fill air destroy` to ensure proper item drops.
  * ==================================================
  */
-system.afterEvents.scriptEventReceive.subscribe(event => {
-    const { id, message, sourceEntity } = event
-    if (id !== 'dorios:destroyFurnace') return
+system.afterEvents.scriptEventReceive.subscribe((event) => {
+  const { id, message, sourceEntity } = event;
+  if (id !== "dorios:destroyFurnace") return;
 
-    try {
-        const [x, y, z] = message.split(',').map(Number)
-        if (isNaN(x) || isNaN(y) || isNaN(z)) {
-            console.warn(`[better_smelters:destroyFurnace] Invalid coordinates: ${message}`)
-            return
-        }
-
-        const dim = sourceEntity?.dimension ?? world.getDimension('overworld')
-        const block = dim.getBlock({ x, y, z })
-        if (!block) return
-
-        const entity = dim.getEntitiesAtBlockLocation(block.center())[0]
-        if (!entity || entity.typeId !== 'better_smelters:furnace') return
-
-        const inv = entity.getComponent('minecraft:inventory')?.container
-        if (inv) {
-            system.run(() => {
-                // Drop only the main usable items
-                if (inv.getItem(2)) dim.spawnItem(inv.getItem(2), { x: x + 0.5, y: y + 0.25, z: z + 0.5 })
-                if (inv.getItem(3)) dim.spawnItem(inv.getItem(3), { x: x + 0.5, y: y + 0.25, z: z + 0.5 })
-                if (inv.getItem(4)) dim.spawnItem(inv.getItem(4), { x: x + 0.5, y: y + 0.25, z: z + 0.5 })
-
-                // Remove the linked entity
-                entity.remove()
-
-                // Properly destroy the block (with item drops)
-                dim.runCommand(`fill ${x} ${y} ${z} ${x} ${y} ${z} air destroy`)
-            })
-        }
-
-    } catch (err) {
-        console.warn(`[better_smelters:destroyFurnace] Error: ${err}`)
+  try {
+    const [x, y, z] = message.split(",").map(Number);
+    if (isNaN(x) || isNaN(y) || isNaN(z)) {
+      console.warn(`[better_smelters:destroyFurnace] Invalid coordinates: ${message}`);
+      return;
     }
-})
+
+    const dim = sourceEntity?.dimension ?? world.getDimension("overworld");
+    const block = dim.getBlock({ x, y, z });
+    if (!block) return;
+
+    const entity = dim.getEntitiesAtBlockLocation(block.center())[0];
+    if (!entity || entity.typeId !== "better_smelters:furnace") return;
+
+    const inv = entity.getComponent("minecraft:inventory")?.container;
+    if (inv) {
+      system.run(() => {
+        // Drop only the main usable items
+        if (inv.getItem(2)) dim.spawnItem(inv.getItem(2), { x: x + 0.5, y: y + 0.25, z: z + 0.5 });
+        if (inv.getItem(3)) dim.spawnItem(inv.getItem(3), { x: x + 0.5, y: y + 0.25, z: z + 0.5 });
+        if (inv.getItem(4)) dim.spawnItem(inv.getItem(4), { x: x + 0.5, y: y + 0.25, z: z + 0.5 });
+
+        // Remove the linked entity
+        entity.remove();
+
+        // Properly destroy the block (with item drops)
+        dim.runCommand(`fill ${x} ${y} ${z} ${x} ${y} ${z} air destroy`);
+      });
+    }
+  } catch (err) {
+    console.warn(`[better_smelters:destroyFurnace] Error: ${err}`);
+  }
+});
+
+system.afterEvents.scriptEventReceive.subscribe(({ id, message, sourceEntity }) => {
+  if (id !== "dorios:special_container") return;
+
+  let slots;
+  try {
+    slots = JSON.parse(message);
+  } catch {
+    return;
+  }
+
+  if (!slots) return;
+  if (!slots.input && !slots.output) return;
+  sourceEntity.setDynamicProperty("dorios:special_container", JSON.stringify(slots));
+});
