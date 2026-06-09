@@ -40,3 +40,6 @@ item.better_smelters:diamond_upgrade_to_netherite=Melhoria de fornalha de diaman
 item.better_smelters:amethyst_upgrade_to_netherite=Melhoria de ametista para netherite\n§9§oBetter Smelters
 item.better_smelters:netherite_upgrade_to_blazing=Melhoria de fornalha de netherite para ardente\n§9§oBetter Smelters
 item.better_smelters:copper_upgrade_to_iron=Melhoria de fornalha de cobre para ferro\n§9§oBetter Smelters
+
+better_smelters:itemGroup.furnaces=Fornalhas Better Smelters
+better_smelters:itemGroup.upgrades=Melhorias Better Smelters
