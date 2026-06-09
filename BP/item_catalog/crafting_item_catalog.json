@@ -7,7 +7,7 @@
         "groups": [
           {
             "group_identifier": {
-              "icon": "better_smelters:iron_furnace",
+              "icon": "better_smelters:diamond_furnace",
               "name": "better_smelters:itemGroup.furnaces"
             },
             "items": [

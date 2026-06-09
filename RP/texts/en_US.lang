@@ -41,5 +41,5 @@ item.better_smelters:amethyst_upgrade_to_netherite=Amethyst Upgrade to Netherite
 item.better_smelters:netherite_upgrade_to_blazing=Netherite Furnace Upgrade to Blazing\n§9§oBetter Smelters
 item.better_smelters:copper_upgrade_to_iron=Copper Furnace Upgrade to Iron\n§9§oBetter Smelters
 
-better_smelters:itemGroup.furnaces=Better Smelters Furnaces
+better_smelters:itemGroup.furnaces=Furnaces
 better_smelters:itemGroup.upgrades=Better Smelters Upgrades

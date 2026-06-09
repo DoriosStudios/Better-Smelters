@@ -41,5 +41,5 @@ item.better_smelters:amethyst_upgrade_to_netherite=Mejora de amatista a netherit
 item.better_smelters:netherite_upgrade_to_blazing=Mejora de horno de netherita a ardiente\n§9§oBetter Smelters
 item.better_smelters:copper_upgrade_to_iron=Mejora de horno de cobre a hierro\n§9§oBetter Smelters
 
-better_smelters:itemGroup.furnaces=Hornos Better Smelters
+better_smelters:itemGroup.furnaces=Furnaces
 better_smelters:itemGroup.upgrades=Mejoras Better Smelters
