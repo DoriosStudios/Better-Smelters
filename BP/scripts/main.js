@@ -8,6 +8,12 @@ const INPUTSLOT = 3;
 const OUTPUTSLOT = 4;
 
 const slotFurnaces = Object.fromEntries(furnaces.map((id) => [id, { "Input Slot": INPUTSLOT, "Fuel Slot": FUELSLOT }]));
+
+function getFurnaceNameTag(typeId) {
+  const tier = typeId.split(":")[1].split("_furnace")[0];
+  return `entity.better_smelters:${tier}.name`;
+}
+
 world.afterEvents.worldLoad.subscribe((e) => {
   system.sendScriptEvent("utilitycraft:register_special_container_slots", JSON.stringify(slotFurnaces));
 });
@@ -19,8 +25,7 @@ system.beforeEvents.startup.subscribe(({ blockComponentRegistry }) => {
       ((y += 0.25), (x += 0.5), (z += 0.5));
       const entity = block.dimension.spawnEntity("better_smelters:furnace", { x, y, z });
       const inv = entity.getComponent("minecraft:inventory")?.container;
-      const tier = block.typeId.split(":")[1].split("_furnace")[0];
-      entity.nameTag = `entity.better_smelters:${tier}.name`;
+      entity.nameTag = getFurnaceNameTag(block.typeId);
 
       inv.setItem(0, new ItemStack("better_smelters:flame_0", 1));
       inv.setItem(1, new ItemStack("better_smelters:arrow_right_0", 1));
@@ -209,8 +214,7 @@ world.afterEvents.playerInteractWithBlock.subscribe((e) => {
 
     const entity = block.dimension.spawnEntity("better_smelters:furnace", { x, y, z });
     const inv = entity.getComponent("minecraft:inventory")?.container;
-    const tier = upgrade.nextF.split(":")[1].split("_furnace")[0];
-    entity.nameTag = `entity.better_smelters:${tier}.name`;
+    entity.nameTag = getFurnaceNameTag(upgrade.nextF);
 
     inv.setItem(0, new ItemStack("better_smelters:flame_0", 1));
     inv.setItem(1, new ItemStack("better_smelters:arrow_right_0", 1));
@@ -221,6 +225,11 @@ world.afterEvents.playerInteractWithBlock.subscribe((e) => {
     entity.setDynamicProperty("better_smelters:fuelR", 0);
     entity.setDynamicProperty("better_smelters:fuelV", 0);
     entity.setDynamicProperty("better_smelters:progress", 0);
+  } else {
+    const entity = block.dimension.getEntitiesAtBlockLocation(block.center())[0];
+    if (entity?.typeId == "better_smelters:furnace") {
+      entity.nameTag = getFurnaceNameTag(upgrade.nextF);
+    }
   }
 
   block.setType(upgrade.nextF);
