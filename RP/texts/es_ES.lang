@@ -1,4 +1,4 @@
-item.spawn_egg.entity.better_smelters:furnace.name=Generar entidad de horno\n§9§oBetter Smelters
+item.spawn_egg.entity.better_smelters:furnace.name=Generar entidad de horno\n§9§o@Better Smelters
 
 entity.better_smelters:furnace.name=Horno
 
@@ -15,31 +15,31 @@ entity.better_smelters:blazing.name=§6Horno ardiente
 entity.better_smelters:nether_star.name=§eHorno de estrella del Nether
 
 
-tile.better_smelters:oak_wood_furnace.name=Horno de madera de roble\n§9§oBetter Smelters
-tile.better_smelters:copper_furnace.name=Horno de cobre\n§9§oBetter Smelters
-tile.better_smelters:iron_furnace.name=Horno de hierro\n§9§oBetter Smelters
-tile.better_smelters:netherrack_furnace.name=Horno de infraroca\n§9§oBetter Smelters
-tile.better_smelters:gold_furnace.name=Horno de oro\n§9§oBetter Smelters
-tile.better_smelters:emerald_furnace.name=Horno de esmeralda\n§9§oBetter Smelters
-tile.better_smelters:diamond_furnace.name=Horno de diamante\n§9§oBetter Smelters
-tile.better_smelters:amethyst_furnace.name=Horno de amatista\n§9§oBetter Smelters
-tile.better_smelters:obsidian_furnace.name=Horno de obsidiana\n§9§oBetter Smelters
-tile.better_smelters:netherite_furnace.name=Horno de netherita\n§9§oBetter Smelters
-tile.better_smelters:blazing_furnace.name=Horno ardiente\n§9§oBetter Smelters
-tile.better_smelters:nether_star_furnace.name=Horno de estrella del Nether\n§9§oBetter Smelters
+tile.better_smelters:oak_wood_furnace.name=Horno de madera de roble\n§9§o@Better Smelters
+tile.better_smelters:copper_furnace.name=Horno de cobre\n§9§o@Better Smelters
+tile.better_smelters:iron_furnace.name=Horno de hierro\n§9§o@Better Smelters
+tile.better_smelters:netherrack_furnace.name=Horno de infraroca\n§9§o@Better Smelters
+tile.better_smelters:gold_furnace.name=Horno de oro\n§9§o@Better Smelters
+tile.better_smelters:emerald_furnace.name=Horno de esmeralda\n§9§o@Better Smelters
+tile.better_smelters:diamond_furnace.name=Horno de diamante\n§9§o@Better Smelters
+tile.better_smelters:amethyst_furnace.name=Horno de amatista\n§9§o@Better Smelters
+tile.better_smelters:obsidian_furnace.name=Horno de obsidiana\n§9§o@Better Smelters
+tile.better_smelters:netherite_furnace.name=Horno de netherita\n§9§o@Better Smelters
+tile.better_smelters:blazing_furnace.name=Horno ardiente\n§9§o@Better Smelters
+tile.better_smelters:nether_star_furnace.name=Horno de estrella del Nether\n§9§o@Better Smelters
 
 
 
-item.better_smelters:upgrade_to_iron=Mejora de horno a hierro\n§9§oBetter Smelters
-item.better_smelters:upgrade_to_copper=Mejora de horno a cobre\n§9§oBetter Smelters
-item.better_smelters:iron_upgrade_to_gold=Mejora de horno de hierro a oro\n§9§oBetter Smelters
-item.better_smelters:gold_upgrade_to_emerald=Mejora de horno de oro a esmeralda\n§9§oBetter Smelters
-item.better_smelters:emerald_upgrade_to_diamond=Mejora de horno de esmeralda a diamante\n§9§oBetter Smelters
-item.better_smelters:emerald_upgrade_to_amethyst=Mejora de horno de esmeralda a amatista\n§9§oBetter Smelters
-item.better_smelters:diamond_upgrade_to_netherite=Mejora de horno de diamante a netherita\n§9§oBetter Smelters
-item.better_smelters:amethyst_upgrade_to_netherite=Mejora de amatista a netherita\n§9§oBetter Smelters
-item.better_smelters:netherite_upgrade_to_blazing=Mejora de horno de netherita a ardiente\n§9§oBetter Smelters
-item.better_smelters:copper_upgrade_to_iron=Mejora de horno de cobre a hierro\n§9§oBetter Smelters
+item.better_smelters:upgrade_to_iron=Mejora de horno a hierro\n§9§o@Better Smelters
+item.better_smelters:upgrade_to_copper=Mejora de horno a cobre\n§9§o@Better Smelters
+item.better_smelters:iron_upgrade_to_gold=Mejora de horno de hierro a oro\n§9§o@Better Smelters
+item.better_smelters:gold_upgrade_to_emerald=Mejora de horno de oro a esmeralda\n§9§o@Better Smelters
+item.better_smelters:emerald_upgrade_to_diamond=Mejora de horno de esmeralda a diamante\n§9§o@Better Smelters
+item.better_smelters:emerald_upgrade_to_amethyst=Mejora de horno de esmeralda a amatista\n§9§o@Better Smelters
+item.better_smelters:diamond_upgrade_to_netherite=Mejora de horno de diamante a netherita\n§9§o@Better Smelters
+item.better_smelters:amethyst_upgrade_to_netherite=Mejora de amatista a netherita\n§9§o@Better Smelters
+item.better_smelters:netherite_upgrade_to_blazing=Mejora de horno de netherita a ardiente\n§9§o@Better Smelters
+item.better_smelters:copper_upgrade_to_iron=Mejora de horno de cobre a hierro\n§9§o@Better Smelters
 
 better_smelters:itemGroup.furnaces=Furnaces
 better_smelters:itemGroup.upgrades=Mejoras Better Smelters

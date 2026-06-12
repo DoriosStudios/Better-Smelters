@@ -1,4 +1,4 @@
-item.spawn_egg.entity.better_smelters:furnace.name=Gerar entidade de fornalha\n§9§oBetter Smelters
+item.spawn_egg.entity.better_smelters:furnace.name=Gerar entidade de fornalha\n§9§o@Better Smelters
 
 entity.better_smelters:furnace.name=Fornalha
 
@@ -15,31 +15,31 @@ entity.better_smelters:blazing.name=§6Fornalha ardente
 entity.better_smelters:nether_star.name=§eFornalha de estrela do Nether
 
 
-tile.better_smelters:oak_wood_furnace.name=Fornalha de madeira de carvalho\n§9§oBetter Smelters
-tile.better_smelters:copper_furnace.name=Fornalha de cobre\n§9§oBetter Smelters
-tile.better_smelters:iron_furnace.name=Fornalha de ferro\n§9§oBetter Smelters
-tile.better_smelters:netherrack_furnace.name=Fornalha de netherrack\n§9§oBetter Smelters
-tile.better_smelters:gold_furnace.name=Fornalha de ouro\n§9§oBetter Smelters
-tile.better_smelters:emerald_furnace.name=Fornalha de esmeralda\n§9§oBetter Smelters
-tile.better_smelters:diamond_furnace.name=Fornalha de diamante\n§9§oBetter Smelters
-tile.better_smelters:amethyst_furnace.name=Fornalha de ametista\n§9§oBetter Smelters
-tile.better_smelters:obsidian_furnace.name=Fornalha de obsidiana\n§9§oBetter Smelters
-tile.better_smelters:netherite_furnace.name=Fornalha de netherite\n§9§oBetter Smelters
-tile.better_smelters:blazing_furnace.name=Fornalha ardente\n§9§oBetter Smelters
-tile.better_smelters:nether_star_furnace.name=Fornalha de estrela do Nether\n§9§oBetter Smelters
+tile.better_smelters:oak_wood_furnace.name=Fornalha de madeira de carvalho\n§9§o@Better Smelters
+tile.better_smelters:copper_furnace.name=Fornalha de cobre\n§9§o@Better Smelters
+tile.better_smelters:iron_furnace.name=Fornalha de ferro\n§9§o@Better Smelters
+tile.better_smelters:netherrack_furnace.name=Fornalha de netherrack\n§9§o@Better Smelters
+tile.better_smelters:gold_furnace.name=Fornalha de ouro\n§9§o@Better Smelters
+tile.better_smelters:emerald_furnace.name=Fornalha de esmeralda\n§9§o@Better Smelters
+tile.better_smelters:diamond_furnace.name=Fornalha de diamante\n§9§o@Better Smelters
+tile.better_smelters:amethyst_furnace.name=Fornalha de ametista\n§9§o@Better Smelters
+tile.better_smelters:obsidian_furnace.name=Fornalha de obsidiana\n§9§o@Better Smelters
+tile.better_smelters:netherite_furnace.name=Fornalha de netherite\n§9§o@Better Smelters
+tile.better_smelters:blazing_furnace.name=Fornalha ardente\n§9§o@Better Smelters
+tile.better_smelters:nether_star_furnace.name=Fornalha de estrela do Nether\n§9§o@Better Smelters
 
 
 
-item.better_smelters:upgrade_to_iron=Melhoria de fornalha para ferro\n§9§oBetter Smelters
-item.better_smelters:upgrade_to_copper=Melhoria de fornalha para cobre\n§9§oBetter Smelters
-item.better_smelters:iron_upgrade_to_gold=Melhoria de fornalha de ferro para ouro\n§9§oBetter Smelters
-item.better_smelters:gold_upgrade_to_emerald=Melhoria de fornalha de ouro para esmeralda\n§9§oBetter Smelters
-item.better_smelters:emerald_upgrade_to_diamond=Melhoria de fornalha de esmeralda para diamante\n§9§oBetter Smelters
-item.better_smelters:emerald_upgrade_to_amethyst=Melhoria de fornalha de esmeralda para ametista\n§9§oBetter Smelters
-item.better_smelters:diamond_upgrade_to_netherite=Melhoria de fornalha de diamante para netherite\n§9§oBetter Smelters
-item.better_smelters:amethyst_upgrade_to_netherite=Melhoria de ametista para netherite\n§9§oBetter Smelters
-item.better_smelters:netherite_upgrade_to_blazing=Melhoria de fornalha de netherite para ardente\n§9§oBetter Smelters
-item.better_smelters:copper_upgrade_to_iron=Melhoria de fornalha de cobre para ferro\n§9§oBetter Smelters
+item.better_smelters:upgrade_to_iron=Melhoria de fornalha para ferro\n§9§o@Better Smelters
+item.better_smelters:upgrade_to_copper=Melhoria de fornalha para cobre\n§9§o@Better Smelters
+item.better_smelters:iron_upgrade_to_gold=Melhoria de fornalha de ferro para ouro\n§9§o@Better Smelters
+item.better_smelters:gold_upgrade_to_emerald=Melhoria de fornalha de ouro para esmeralda\n§9§o@Better Smelters
+item.better_smelters:emerald_upgrade_to_diamond=Melhoria de fornalha de esmeralda para diamante\n§9§o@Better Smelters
+item.better_smelters:emerald_upgrade_to_amethyst=Melhoria de fornalha de esmeralda para ametista\n§9§o@Better Smelters
+item.better_smelters:diamond_upgrade_to_netherite=Melhoria de fornalha de diamante para netherite\n§9§o@Better Smelters
+item.better_smelters:amethyst_upgrade_to_netherite=Melhoria de ametista para netherite\n§9§o@Better Smelters
+item.better_smelters:netherite_upgrade_to_blazing=Melhoria de fornalha de netherite para ardente\n§9§o@Better Smelters
+item.better_smelters:copper_upgrade_to_iron=Melhoria de fornalha de cobre para ferro\n§9§o@Better Smelters
 
 better_smelters:itemGroup.furnaces=Furnaces
 better_smelters:itemGroup.upgrades=Melhorias Better Smelters

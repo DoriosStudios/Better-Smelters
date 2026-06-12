@@ -1,4 +1,4 @@
-item.spawn_egg.entity.better_smelters:furnace.name=Spawn Furnace Entity\n§9§oBetter Smelters
+item.spawn_egg.entity.better_smelters:furnace.name=Spawn Furnace Entity\n§9§o@Better Smelters
 
 entity.better_smelters:furnace.name=Furnace
 
@@ -15,31 +15,31 @@ entity.better_smelters:blazing.name=§6Blazing Furnace
 entity.better_smelters:nether_star.name=§eNether Star Furnace
 
 
-tile.better_smelters:oak_wood_furnace.name=Oak Wood Furnace\n§9§oBetter Smelters
-tile.better_smelters:copper_furnace.name=Copper Furnace\n§9§oBetter Smelters
-tile.better_smelters:iron_furnace.name=Iron Furnace\n§9§oBetter Smelters
-tile.better_smelters:netherrack_furnace.name=Netherrack Furnace\n§9§oBetter Smelters
-tile.better_smelters:gold_furnace.name=Gold Furnace\n§9§oBetter Smelters
-tile.better_smelters:emerald_furnace.name=Emerald Furnace\n§9§oBetter Smelters
-tile.better_smelters:diamond_furnace.name=Diamond Furnace\n§9§oBetter Smelters
-tile.better_smelters:amethyst_furnace.name=Amethyst Furnace\n§9§oBetter Smelters
-tile.better_smelters:obsidian_furnace.name=Obsidian Furnace\n§9§oBetter Smelters
-tile.better_smelters:netherite_furnace.name=Netherite Furnace\n§9§oBetter Smelters
-tile.better_smelters:blazing_furnace.name=Blazing Furnace\n§9§oBetter Smelters
-tile.better_smelters:nether_star_furnace.name=Nether Star Furnace\n§9§oBetter Smelters
+tile.better_smelters:oak_wood_furnace.name=Oak Wood Furnace\n§9§o@Better Smelters
+tile.better_smelters:copper_furnace.name=Copper Furnace\n§9§o@Better Smelters
+tile.better_smelters:iron_furnace.name=Iron Furnace\n§9§o@Better Smelters
+tile.better_smelters:netherrack_furnace.name=Netherrack Furnace\n§9§o@Better Smelters
+tile.better_smelters:gold_furnace.name=Gold Furnace\n§9§o@Better Smelters
+tile.better_smelters:emerald_furnace.name=Emerald Furnace\n§9§o@Better Smelters
+tile.better_smelters:diamond_furnace.name=Diamond Furnace\n§9§o@Better Smelters
+tile.better_smelters:amethyst_furnace.name=Amethyst Furnace\n§9§o@Better Smelters
+tile.better_smelters:obsidian_furnace.name=Obsidian Furnace\n§9§o@Better Smelters
+tile.better_smelters:netherite_furnace.name=Netherite Furnace\n§9§o@Better Smelters
+tile.better_smelters:blazing_furnace.name=Blazing Furnace\n§9§o@Better Smelters
+tile.better_smelters:nether_star_furnace.name=Nether Star Furnace\n§9§o@Better Smelters
 
 
 
-item.better_smelters:upgrade_to_iron=Furnace Upgrade to Iron\n§9§oBetter Smelters
-item.better_smelters:upgrade_to_copper=Furnace Upgrade to Copper\n§9§oBetter Smelters
-item.better_smelters:iron_upgrade_to_gold=Iron Furnace Upgrade to Gold\n§9§oBetter Smelters
-item.better_smelters:gold_upgrade_to_emerald=Gold Furnace Upgrade to Emerald\n§9§oBetter Smelters
-item.better_smelters:emerald_upgrade_to_diamond=Emerald Furnace Upgrade to Diamond\n§9§oBetter Smelters
-item.better_smelters:emerald_upgrade_to_amethyst=Emerald Furnace Upgrade to Amethyst\n§9§oBetter Smelters
-item.better_smelters:diamond_upgrade_to_netherite=Diamond Furnace Upgrade to Netherite\n§9§oBetter Smelters
-item.better_smelters:amethyst_upgrade_to_netherite=Amethyst Upgrade to Netherite\n§9§oBetter Smelters
-item.better_smelters:netherite_upgrade_to_blazing=Netherite Furnace Upgrade to Blazing\n§9§oBetter Smelters
-item.better_smelters:copper_upgrade_to_iron=Copper Furnace Upgrade to Iron\n§9§oBetter Smelters
+item.better_smelters:upgrade_to_iron=Furnace Upgrade to Iron\n§9§o@Better Smelters
+item.better_smelters:upgrade_to_copper=Furnace Upgrade to Copper\n§9§o@Better Smelters
+item.better_smelters:iron_upgrade_to_gold=Iron Furnace Upgrade to Gold\n§9§o@Better Smelters
+item.better_smelters:gold_upgrade_to_emerald=Gold Furnace Upgrade to Emerald\n§9§o@Better Smelters
+item.better_smelters:emerald_upgrade_to_diamond=Emerald Furnace Upgrade to Diamond\n§9§o@Better Smelters
+item.better_smelters:emerald_upgrade_to_amethyst=Emerald Furnace Upgrade to Amethyst\n§9§o@Better Smelters
+item.better_smelters:diamond_upgrade_to_netherite=Diamond Furnace Upgrade to Netherite\n§9§o@Better Smelters
+item.better_smelters:amethyst_upgrade_to_netherite=Amethyst Upgrade to Netherite\n§9§o@Better Smelters
+item.better_smelters:netherite_upgrade_to_blazing=Netherite Furnace Upgrade to Blazing\n§9§o@Better Smelters
+item.better_smelters:copper_upgrade_to_iron=Copper Furnace Upgrade to Iron\n§9§o@Better Smelters
 
 better_smelters:itemGroup.furnaces=Furnaces
 better_smelters:itemGroup.upgrades=Better Smelters Upgrades
