@@ -504,7 +504,7 @@ export const solidFuels = [
     { id: "banner", value: 1500 },
     { id: "chest", value: 3000 },
     { id: "leaves", value: 500 },
-    { id: 'minecraft:lava_bucket', transformToItem: 'minecraft:bucket', value: 100 },
+    { id: 'minecraft:lava_bucket', transformToItem: 'minecraft:bucket', value: 100000 },
 ];
 
 /**
