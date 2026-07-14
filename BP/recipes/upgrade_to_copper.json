@@ -13,11 +13,14 @@
             },
             "B": {
                 "item": "minecraft:copper_block"
+            },
+            "P": {
+                "item": "minecraft:cobblestone"
             }
         },
         "pattern": [
             "MMM",
-            "M M",
+            "MPM",
             "MBM"
         ],
         "result": {

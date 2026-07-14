@@ -14,13 +14,13 @@
             "B": {
                 "item": "minecraft:netherite_ingot"
             },
-            "F": {
-                "item": "better_smelters:emerald_upgrade_to_amethyst"
+            "P": {
+                "item": "minecraft:amethyst_shard"
             }
         },
         "pattern": [
             "MMM",
-            "MFM",
+            "MPM",
             "MBM"
         ],
         "result": {
@@ -31,7 +31,7 @@
                 "item": "minecraft:netherite_scrap"
             },
             {
-                "item": "better_smelters:emerald_upgrade_to_amethyst"
+                "item": "minecraft:furnace"
             }
         ]
     }

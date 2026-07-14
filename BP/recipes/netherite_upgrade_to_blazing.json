@@ -14,13 +14,13 @@
             "B": {
                 "item": "minecraft:netherite_block"
             },
-            "F": {
-                "item": "better_smelters:diamond_upgrade_to_netherite"
+            "P": {
+                "item": "minecraft:netherite_scrap"
             }
         },
         "pattern": [
             "MMM",
-            "MFM",
+            "MPM",
             "MBM"
         ],
         "result": {
@@ -31,7 +31,7 @@
                 "item": "minecraft:blaze_rod"
             },
             {
-                "item": "better_smelters:diamond_upgrade_to_netherite"
+                "item": "minecraft:furnace"
             }
         ]
     }

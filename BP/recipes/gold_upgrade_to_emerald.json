@@ -14,13 +14,13 @@
             "B": {
                 "item": "minecraft:emerald_block"
             },
-            "F": {
-                "item": "better_smelters:iron_upgrade_to_gold"
+            "P": {
+                "item": "minecraft:gold_ingot"
             }
         },
         "pattern": [
             "MMM",
-            "MFM",
+            "MPM",
             "MBM"
         ],
         "result": {
@@ -31,7 +31,7 @@
                 "item": "minecraft:emerald"
             },
             {
-                "item": "better_smelters:iron_upgrade_to_gold"
+                "item": "minecraft:furnace"
             }
         ]
     }

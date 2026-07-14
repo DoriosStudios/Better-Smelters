@@ -9,18 +9,18 @@
         ],
         "key": {
             "M": {
-                "item": "netherite_scrap"
+                "item": "minecraft:netherite_scrap"
             },
             "B": {
-                "item": "netherite_ingot"
+                "item": "minecraft:netherite_ingot"
             },
-            "F": {
-                "item": "better_smelters:emerald_upgrade_to_diamond"
+            "P": {
+                "item": "minecraft:diamond"
             }
         },
         "pattern": [
             "MMM",
-            "MFM",
+            "MPM",
             "MBM"
         ],
         "result": {
@@ -31,7 +31,7 @@
                 "item": "minecraft:netherite_scrap"
             },
             {
-                "item": "better_smelters:emerald_upgrade_to_diamond"
+                "item": "minecraft:furnace"
             }
         ]
     }

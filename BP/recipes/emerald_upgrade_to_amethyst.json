@@ -14,13 +14,13 @@
             "B": {
                 "item": "minecraft:amethyst_block"
             },
-            "F": {
-                "item": "better_smelters:gold_upgrade_to_emerald"
+            "P": {
+                "item": "minecraft:emerald"
             }
         },
         "pattern": [
             "MMM",
-            "MFM",
+            "MPM",
             "MBM"
         ],
         "result": {
@@ -31,7 +31,7 @@
                 "item": "minecraft:amethyst_shard"
             },
             {
-                "item": "better_smelters:gold_upgrade_to_emerald"
+                "item": "minecraft:furnace"
             }
         ]
     }
