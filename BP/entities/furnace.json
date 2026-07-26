@@ -5,7 +5,18 @@
 			"identifier": "better_smelters:furnace",
 			"is_spawnable": false,
 			"is_summonable": true,
-			"is_experimental": false
+			"is_experimental": false,
+			"properties": {
+				"better_smelters:ui_viewers": {
+					"type": "int",
+					"range": [
+						0,
+						64
+					],
+					"default": 0,
+					"client_sync": false
+				}
+			}
 		},
 		"component_groups": {
 			"despawn": {
@@ -21,9 +32,7 @@
 				"family": [
 					"inanimate",
 					"furnace",
-					"dorios:container",
-					"dorios:simple_input",
-					"dorios:simple_output"
+					"better_smelters:furnace"
 				]
 			},
 			"minecraft:fire_immune": true,

@@ -75,6 +75,402 @@
 		},
 		"better_smelters_netherrack_furnace_on": {
 			"textures": "textures/blocks/netherrack_furnace_on"
+		},
+		"better_smelters_amethyst_furnace_off_north": {
+			"textures": "textures/blocks/furnaces/amethyst/off/north"
+		},
+		"better_smelters_amethyst_furnace_off_south": {
+			"textures": "textures/blocks/furnaces/amethyst/off/south"
+		},
+		"better_smelters_amethyst_furnace_off_east": {
+			"textures": "textures/blocks/furnaces/amethyst/off/east"
+		},
+		"better_smelters_amethyst_furnace_off_west": {
+			"textures": "textures/blocks/furnaces/amethyst/off/west"
+		},
+		"better_smelters_amethyst_furnace_off_up": {
+			"textures": "textures/blocks/furnaces/amethyst/off/up"
+		},
+		"better_smelters_amethyst_furnace_off_down": {
+			"textures": "textures/blocks/furnaces/amethyst/off/down"
+		},
+		"better_smelters_amethyst_furnace_on_north": {
+			"textures": "textures/blocks/furnaces/amethyst/on/north"
+		},
+		"better_smelters_amethyst_furnace_on_south": {
+			"textures": "textures/blocks/furnaces/amethyst/on/south"
+		},
+		"better_smelters_amethyst_furnace_on_east": {
+			"textures": "textures/blocks/furnaces/amethyst/on/east"
+		},
+		"better_smelters_amethyst_furnace_on_west": {
+			"textures": "textures/blocks/furnaces/amethyst/on/west"
+		},
+		"better_smelters_amethyst_furnace_on_up": {
+			"textures": "textures/blocks/furnaces/amethyst/on/up"
+		},
+		"better_smelters_amethyst_furnace_on_down": {
+			"textures": "textures/blocks/furnaces/amethyst/on/down"
+		},
+		"better_smelters_blaze_furnace_off_north": {
+			"textures": "textures/blocks/furnaces/blazing/off/north"
+		},
+		"better_smelters_blaze_furnace_off_south": {
+			"textures": "textures/blocks/furnaces/blazing/off/south"
+		},
+		"better_smelters_blaze_furnace_off_east": {
+			"textures": "textures/blocks/furnaces/blazing/off/east"
+		},
+		"better_smelters_blaze_furnace_off_west": {
+			"textures": "textures/blocks/furnaces/blazing/off/west"
+		},
+		"better_smelters_blaze_furnace_off_up": {
+			"textures": "textures/blocks/furnaces/blazing/off/up"
+		},
+		"better_smelters_blaze_furnace_off_down": {
+			"textures": "textures/blocks/furnaces/blazing/off/down"
+		},
+		"better_smelters_blaze_furnace_on_north": {
+			"textures": "textures/blocks/furnaces/blazing/on/north"
+		},
+		"better_smelters_blaze_furnace_on_south": {
+			"textures": "textures/blocks/furnaces/blazing/on/south"
+		},
+		"better_smelters_blaze_furnace_on_east": {
+			"textures": "textures/blocks/furnaces/blazing/on/east"
+		},
+		"better_smelters_blaze_furnace_on_west": {
+			"textures": "textures/blocks/furnaces/blazing/on/west"
+		},
+		"better_smelters_blaze_furnace_on_up": {
+			"textures": "textures/blocks/furnaces/blazing/on/up"
+		},
+		"better_smelters_blaze_furnace_on_down": {
+			"textures": "textures/blocks/furnaces/blazing/on/down"
+		},
+		"better_smelters_copper_furnace_off_north": {
+			"textures": "textures/blocks/furnaces/copper/off/north"
+		},
+		"better_smelters_copper_furnace_off_south": {
+			"textures": "textures/blocks/furnaces/copper/off/south"
+		},
+		"better_smelters_copper_furnace_off_east": {
+			"textures": "textures/blocks/furnaces/copper/off/east"
+		},
+		"better_smelters_copper_furnace_off_west": {
+			"textures": "textures/blocks/furnaces/copper/off/west"
+		},
+		"better_smelters_copper_furnace_off_up": {
+			"textures": "textures/blocks/furnaces/copper/off/up"
+		},
+		"better_smelters_copper_furnace_off_down": {
+			"textures": "textures/blocks/furnaces/copper/off/down"
+		},
+		"better_smelters_copper_furnace_on_north": {
+			"textures": "textures/blocks/furnaces/copper/on/north"
+		},
+		"better_smelters_copper_furnace_on_south": {
+			"textures": "textures/blocks/furnaces/copper/on/south"
+		},
+		"better_smelters_copper_furnace_on_east": {
+			"textures": "textures/blocks/furnaces/copper/on/east"
+		},
+		"better_smelters_copper_furnace_on_west": {
+			"textures": "textures/blocks/furnaces/copper/on/west"
+		},
+		"better_smelters_copper_furnace_on_up": {
+			"textures": "textures/blocks/furnaces/copper/on/up"
+		},
+		"better_smelters_copper_furnace_on_down": {
+			"textures": "textures/blocks/furnaces/copper/on/down"
+		},
+		"better_smelters_diamond_furnace_off_north": {
+			"textures": "textures/blocks/furnaces/diamond/off/north"
+		},
+		"better_smelters_diamond_furnace_off_south": {
+			"textures": "textures/blocks/furnaces/diamond/off/south"
+		},
+		"better_smelters_diamond_furnace_off_east": {
+			"textures": "textures/blocks/furnaces/diamond/off/east"
+		},
+		"better_smelters_diamond_furnace_off_west": {
+			"textures": "textures/blocks/furnaces/diamond/off/west"
+		},
+		"better_smelters_diamond_furnace_off_up": {
+			"textures": "textures/blocks/furnaces/diamond/off/up"
+		},
+		"better_smelters_diamond_furnace_off_down": {
+			"textures": "textures/blocks/furnaces/diamond/off/down"
+		},
+		"better_smelters_diamond_furnace_on_north": {
+			"textures": "textures/blocks/furnaces/diamond/on/north"
+		},
+		"better_smelters_diamond_furnace_on_south": {
+			"textures": "textures/blocks/furnaces/diamond/on/south"
+		},
+		"better_smelters_diamond_furnace_on_east": {
+			"textures": "textures/blocks/furnaces/diamond/on/east"
+		},
+		"better_smelters_diamond_furnace_on_west": {
+			"textures": "textures/blocks/furnaces/diamond/on/west"
+		},
+		"better_smelters_diamond_furnace_on_up": {
+			"textures": "textures/blocks/furnaces/diamond/on/up"
+		},
+		"better_smelters_diamond_furnace_on_down": {
+			"textures": "textures/blocks/furnaces/diamond/on/down"
+		},
+		"better_smelters_emerald_furnace_off_north": {
+			"textures": "textures/blocks/furnaces/emerald/off/north"
+		},
+		"better_smelters_emerald_furnace_off_south": {
+			"textures": "textures/blocks/furnaces/emerald/off/south"
+		},
+		"better_smelters_emerald_furnace_off_east": {
+			"textures": "textures/blocks/furnaces/emerald/off/east"
+		},
+		"better_smelters_emerald_furnace_off_west": {
+			"textures": "textures/blocks/furnaces/emerald/off/west"
+		},
+		"better_smelters_emerald_furnace_off_up": {
+			"textures": "textures/blocks/furnaces/emerald/off/up"
+		},
+		"better_smelters_emerald_furnace_off_down": {
+			"textures": "textures/blocks/furnaces/emerald/off/down"
+		},
+		"better_smelters_emerald_furnace_on_north": {
+			"textures": "textures/blocks/furnaces/emerald/on/north"
+		},
+		"better_smelters_emerald_furnace_on_south": {
+			"textures": "textures/blocks/furnaces/emerald/on/south"
+		},
+		"better_smelters_emerald_furnace_on_east": {
+			"textures": "textures/blocks/furnaces/emerald/on/east"
+		},
+		"better_smelters_emerald_furnace_on_west": {
+			"textures": "textures/blocks/furnaces/emerald/on/west"
+		},
+		"better_smelters_emerald_furnace_on_up": {
+			"textures": "textures/blocks/furnaces/emerald/on/up"
+		},
+		"better_smelters_emerald_furnace_on_down": {
+			"textures": "textures/blocks/furnaces/emerald/on/down"
+		},
+		"better_smelters_gold_furnace_off_north": {
+			"textures": "textures/blocks/furnaces/gold/off/north"
+		},
+		"better_smelters_gold_furnace_off_south": {
+			"textures": "textures/blocks/furnaces/gold/off/south"
+		},
+		"better_smelters_gold_furnace_off_east": {
+			"textures": "textures/blocks/furnaces/gold/off/east"
+		},
+		"better_smelters_gold_furnace_off_west": {
+			"textures": "textures/blocks/furnaces/gold/off/west"
+		},
+		"better_smelters_gold_furnace_off_up": {
+			"textures": "textures/blocks/furnaces/gold/off/up"
+		},
+		"better_smelters_gold_furnace_off_down": {
+			"textures": "textures/blocks/furnaces/gold/off/down"
+		},
+		"better_smelters_gold_furnace_on_north": {
+			"textures": "textures/blocks/furnaces/gold/on/north"
+		},
+		"better_smelters_gold_furnace_on_south": {
+			"textures": "textures/blocks/furnaces/gold/on/south"
+		},
+		"better_smelters_gold_furnace_on_east": {
+			"textures": "textures/blocks/furnaces/gold/on/east"
+		},
+		"better_smelters_gold_furnace_on_west": {
+			"textures": "textures/blocks/furnaces/gold/on/west"
+		},
+		"better_smelters_gold_furnace_on_up": {
+			"textures": "textures/blocks/furnaces/gold/on/up"
+		},
+		"better_smelters_gold_furnace_on_down": {
+			"textures": "textures/blocks/furnaces/gold/on/down"
+		},
+		"better_smelters_iron_furnace_off_north": {
+			"textures": "textures/blocks/furnaces/iron/off/north"
+		},
+		"better_smelters_iron_furnace_off_south": {
+			"textures": "textures/blocks/furnaces/iron/off/south"
+		},
+		"better_smelters_iron_furnace_off_east": {
+			"textures": "textures/blocks/furnaces/iron/off/east"
+		},
+		"better_smelters_iron_furnace_off_west": {
+			"textures": "textures/blocks/furnaces/iron/off/west"
+		},
+		"better_smelters_iron_furnace_off_up": {
+			"textures": "textures/blocks/furnaces/iron/off/up"
+		},
+		"better_smelters_iron_furnace_off_down": {
+			"textures": "textures/blocks/furnaces/iron/off/down"
+		},
+		"better_smelters_iron_furnace_on_north": {
+			"textures": "textures/blocks/furnaces/iron/on/north"
+		},
+		"better_smelters_iron_furnace_on_south": {
+			"textures": "textures/blocks/furnaces/iron/on/south"
+		},
+		"better_smelters_iron_furnace_on_east": {
+			"textures": "textures/blocks/furnaces/iron/on/east"
+		},
+		"better_smelters_iron_furnace_on_west": {
+			"textures": "textures/blocks/furnaces/iron/on/west"
+		},
+		"better_smelters_iron_furnace_on_up": {
+			"textures": "textures/blocks/furnaces/iron/on/up"
+		},
+		"better_smelters_iron_furnace_on_down": {
+			"textures": "textures/blocks/furnaces/iron/on/down"
+		},
+		"better_smelters_nether_star_furnace_off_north": {
+			"textures": "textures/blocks/furnaces/nether_star/off/north"
+		},
+		"better_smelters_nether_star_furnace_off_south": {
+			"textures": "textures/blocks/furnaces/nether_star/off/south"
+		},
+		"better_smelters_nether_star_furnace_off_east": {
+			"textures": "textures/blocks/furnaces/nether_star/off/east"
+		},
+		"better_smelters_nether_star_furnace_off_west": {
+			"textures": "textures/blocks/furnaces/nether_star/off/west"
+		},
+		"better_smelters_nether_star_furnace_off_up": {
+			"textures": "textures/blocks/furnaces/nether_star/off/up"
+		},
+		"better_smelters_nether_star_furnace_off_down": {
+			"textures": "textures/blocks/furnaces/nether_star/off/down"
+		},
+		"better_smelters_nether_star_furnace_on_north": {
+			"textures": "textures/blocks/furnaces/nether_star/on/north"
+		},
+		"better_smelters_nether_star_furnace_on_south": {
+			"textures": "textures/blocks/furnaces/nether_star/on/south"
+		},
+		"better_smelters_nether_star_furnace_on_east": {
+			"textures": "textures/blocks/furnaces/nether_star/on/east"
+		},
+		"better_smelters_nether_star_furnace_on_west": {
+			"textures": "textures/blocks/furnaces/nether_star/on/west"
+		},
+		"better_smelters_nether_star_furnace_on_up": {
+			"textures": "textures/blocks/furnaces/nether_star/on/up"
+		},
+		"better_smelters_nether_star_furnace_on_down": {
+			"textures": "textures/blocks/furnaces/nether_star/on/down"
+		},
+		"better_smelters_netherite_furnace_off_north": {
+			"textures": "textures/blocks/furnaces/netherite/off/north"
+		},
+		"better_smelters_netherite_furnace_off_south": {
+			"textures": "textures/blocks/furnaces/netherite/off/south"
+		},
+		"better_smelters_netherite_furnace_off_east": {
+			"textures": "textures/blocks/furnaces/netherite/off/east"
+		},
+		"better_smelters_netherite_furnace_off_west": {
+			"textures": "textures/blocks/furnaces/netherite/off/west"
+		},
+		"better_smelters_netherite_furnace_off_up": {
+			"textures": "textures/blocks/furnaces/netherite/off/up"
+		},
+		"better_smelters_netherite_furnace_off_down": {
+			"textures": "textures/blocks/furnaces/netherite/off/down"
+		},
+		"better_smelters_netherite_furnace_on_north": {
+			"textures": "textures/blocks/furnaces/netherite/on/north"
+		},
+		"better_smelters_netherite_furnace_on_south": {
+			"textures": "textures/blocks/furnaces/netherite/on/south"
+		},
+		"better_smelters_netherite_furnace_on_east": {
+			"textures": "textures/blocks/furnaces/netherite/on/east"
+		},
+		"better_smelters_netherite_furnace_on_west": {
+			"textures": "textures/blocks/furnaces/netherite/on/west"
+		},
+		"better_smelters_netherite_furnace_on_up": {
+			"textures": "textures/blocks/furnaces/netherite/on/up"
+		},
+		"better_smelters_netherite_furnace_on_down": {
+			"textures": "textures/blocks/furnaces/netherite/on/down"
+		},
+		"better_smelters_netherrack_furnace_off_north": {
+			"textures": "textures/blocks/furnaces/netherrack/off/north"
+		},
+		"better_smelters_netherrack_furnace_off_south": {
+			"textures": "textures/blocks/furnaces/netherrack/off/south"
+		},
+		"better_smelters_netherrack_furnace_off_east": {
+			"textures": "textures/blocks/furnaces/netherrack/off/east"
+		},
+		"better_smelters_netherrack_furnace_off_west": {
+			"textures": "textures/blocks/furnaces/netherrack/off/west"
+		},
+		"better_smelters_netherrack_furnace_off_up": {
+			"textures": "textures/blocks/furnaces/netherrack/off/up"
+		},
+		"better_smelters_netherrack_furnace_off_down": {
+			"textures": "textures/blocks/furnaces/netherrack/off/down"
+		},
+		"better_smelters_netherrack_furnace_on_north": {
+			"textures": "textures/blocks/furnaces/netherrack/on/north"
+		},
+		"better_smelters_netherrack_furnace_on_south": {
+			"textures": "textures/blocks/furnaces/netherrack/on/south"
+		},
+		"better_smelters_netherrack_furnace_on_east": {
+			"textures": "textures/blocks/furnaces/netherrack/on/east"
+		},
+		"better_smelters_netherrack_furnace_on_west": {
+			"textures": "textures/blocks/furnaces/netherrack/on/west"
+		},
+		"better_smelters_netherrack_furnace_on_up": {
+			"textures": "textures/blocks/furnaces/netherrack/on/up"
+		},
+		"better_smelters_netherrack_furnace_on_down": {
+			"textures": "textures/blocks/furnaces/netherrack/on/down"
+		},
+		"better_smelters_oak_wood_furnace_off_north": {
+			"textures": "textures/blocks/furnaces/oak_wood/off/north"
+		},
+		"better_smelters_oak_wood_furnace_off_south": {
+			"textures": "textures/blocks/furnaces/oak_wood/off/south"
+		},
+		"better_smelters_oak_wood_furnace_off_east": {
+			"textures": "textures/blocks/furnaces/oak_wood/off/east"
+		},
+		"better_smelters_oak_wood_furnace_off_west": {
+			"textures": "textures/blocks/furnaces/oak_wood/off/west"
+		},
+		"better_smelters_oak_wood_furnace_off_up": {
+			"textures": "textures/blocks/furnaces/oak_wood/off/up"
+		},
+		"better_smelters_oak_wood_furnace_off_down": {
+			"textures": "textures/blocks/furnaces/oak_wood/off/down"
+		},
+		"better_smelters_oak_wood_furnace_on_north": {
+			"textures": "textures/blocks/furnaces/oak_wood/on/north"
+		},
+		"better_smelters_oak_wood_furnace_on_south": {
+			"textures": "textures/blocks/furnaces/oak_wood/on/south"
+		},
+		"better_smelters_oak_wood_furnace_on_east": {
+			"textures": "textures/blocks/furnaces/oak_wood/on/east"
+		},
+		"better_smelters_oak_wood_furnace_on_west": {
+			"textures": "textures/blocks/furnaces/oak_wood/on/west"
+		},
+		"better_smelters_oak_wood_furnace_on_up": {
+			"textures": "textures/blocks/furnaces/oak_wood/on/up"
+		},
+		"better_smelters_oak_wood_furnace_on_down": {
+			"textures": "textures/blocks/furnaces/oak_wood/on/down"
 		}
 	}
 }

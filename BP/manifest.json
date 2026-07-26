@@ -17,8 +17,8 @@
 		"uuid": "3c4d1777-6e8b-4cbe-a2fc-b8ef2e351f9d",
 		"version": [
 			1,
-			4,
-			1
+			5,
+			0
 		]
 	},
 	"modules": [
@@ -27,7 +27,7 @@
 			"uuid": "01f9ae75-dda4-4a75-b2da-85b41b856982",
 			"version": [
 				1,
-				4,
+				5,
 				0
 			]
 		},
@@ -38,7 +38,7 @@
 			"entry": "scripts/main.js",
 			"version": [
 				1,
-				4,
+				5,
 				0
 			]
 		}
@@ -48,13 +48,13 @@
 			"uuid": "be207038-b363-47c0-af9f-f400e928db8a",
 			"version": [
 				1,
-				4,
-				1
+				5,
+				0
 			]
 		},
 		{
 			"module_name": "@minecraft/server",
-			"version": "2.4.0"
+			"version": "2.8.0"
 		}
 	]
 }

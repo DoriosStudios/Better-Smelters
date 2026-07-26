@@ -18,6 +18,10 @@
 				"better_smelters:on": [
 					false,
 					true
+				],
+				"better_smelters:ui_open": [
+					false,
+					true
 				]
 			}
 		},
@@ -26,17 +30,41 @@
 				"speed": 2,
 				"infinite": true
 			},
-			"minecraft:geometry": "geometry.better_smelters_basic",
+			"minecraft:geometry": "minecraft:geometry.full_block",
 			"minecraft:material_instances": {
 				"*": {
-					"texture": "better_smelters_netherrack_furnace_off",
+					"texture": "better_smelters_netherrack_furnace_off_north",
+					"render_method": "alpha_test"
+				},
+				"north": {
+					"texture": "better_smelters_netherrack_furnace_off_north",
+					"render_method": "alpha_test"
+				},
+				"south": {
+					"texture": "better_smelters_netherrack_furnace_off_south",
+					"render_method": "alpha_test"
+				},
+				"east": {
+					"texture": "better_smelters_netherrack_furnace_off_east",
+					"render_method": "alpha_test"
+				},
+				"west": {
+					"texture": "better_smelters_netherrack_furnace_off_west",
+					"render_method": "alpha_test"
+				},
+				"up": {
+					"texture": "better_smelters_netherrack_furnace_off_up",
+					"render_method": "alpha_test"
+				},
+				"down": {
+					"texture": "better_smelters_netherrack_furnace_off_down",
 					"render_method": "alpha_test"
 				}
 			},
 			"minecraft:tick": {
 				"interval_range": [
-					5,
-					5
+					2,
+					2
 				]
 			},
 			"minecraft:destructible_by_mining": {
@@ -44,7 +72,7 @@
 			},
 			"minecraft:destructible_by_explosion": false,
 			"tag:minecraft:is_pickaxe_item_destructible": {},
-			"tag:dorios:furnace":{}
+			"tag:better_smelters:furnace": {}
 		},
 		"permutations": [
 			{
@@ -96,11 +124,46 @@
 				}
 			},
 			{
+				"condition": "q.block_state('better_smelters:ui_open') == false ",
+				"components": {
+					"minecraft:tick": {
+						"interval_range": [
+							20,
+							20
+						]
+					}
+				}
+			},
+			{
 				"condition": "q.block_state('better_smelters:on') == true ",
 				"components": {
 					"minecraft:material_instances": {
 						"*": {
-							"texture": "better_smelters_netherrack_furnace_on",
+							"texture": "better_smelters_netherrack_furnace_on_north",
+							"render_method": "alpha_test"
+						},
+						"north": {
+							"texture": "better_smelters_netherrack_furnace_on_north",
+							"render_method": "alpha_test"
+						},
+						"south": {
+							"texture": "better_smelters_netherrack_furnace_on_south",
+							"render_method": "alpha_test"
+						},
+						"east": {
+							"texture": "better_smelters_netherrack_furnace_on_east",
+							"render_method": "alpha_test"
+						},
+						"west": {
+							"texture": "better_smelters_netherrack_furnace_on_west",
+							"render_method": "alpha_test"
+						},
+						"up": {
+							"texture": "better_smelters_netherrack_furnace_on_up",
+							"render_method": "alpha_test"
+						},
+						"down": {
+							"texture": "better_smelters_netherrack_furnace_on_down",
 							"render_method": "alpha_test"
 						}
 					},

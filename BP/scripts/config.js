@@ -50,60 +50,16 @@ export const upgrades = {
 export const baseSettings = { baseCost: 100, baseSpeed: 1 }
 
 /**
- * Recipes for the Incinerator machine.
+ * Recipes supported by Better Smelters furnaces.
  *
  * Each key represents an input item identifier, and its value specifies
  * the resulting output item, required input quantity, and output amount.
  *
  * @constant
- * @type {SingleInputRecipes}
+ * @type {Record<string, { output: string }>}
  */
 export const furnaceRecipes = {
-    // UtilityCraft
-    "utilitycraft:raw_steel": {
-        output: "utilitycraft:steel_ingot"
-    },
-    "utilitycraft:raw_energized_iron": {
-        output: "utilitycraft:energized_iron_ingot"
-    },
-    "utilitycraft:iron_dust": {
-        output: "minecraft:iron_ingot"
-    },
-    "utilitycraft:copper_dust": {
-        output: "minecraft:copper_ingot"
-    },
-    "utilitycraft:gold_dust": {
-        output: "minecraft:gold_ingot"
-    },
-    "utilitycraft:netherite_dust": {
-        output: "minecraft:netherite_ingot"
-    },
-    "utilitycraft:netherite_scrap_dust": {
-        output: "minecraft:netherite_scrap"
-    },
-    "utilitycraft:steel_dust": {
-        output: "utilitycraft:steel_ingot"
-    },
-    "utilitycraft:energized_iron_dust": {
-        output: "utilitycraft:energized_iron_ingot"
-    },
-    "utilitycraft:raw_steel_block": {
-        output: "utilitycraft:steel_block"
-    },
-    "utilitycraft:raw_energized_iron_block": {
-        output: "utilitycraft:energized_iron_block"
-    },
-    "utilitycraft:raw_leather": {
-        output: "minecraft:leather"
-    },
-    'utilitycraft:crushed_kelp': {
-        output: "minecraft:slime_ball"
-    },
-    // Compressed    
-    "utilitycraft:compressed_sand": {
-        output: "utilitycraft:compressed_glass"
-    },
-    // Utility Useful Recipes
+    // Useful block recipes
     "minecraft:raw_iron_block": {
         output: "minecraft:iron_block"
     },
@@ -382,7 +338,7 @@ export const furnaceRecipes = {
 }
 
 /**
- * ScriptEvent receiver: "utilitycraft:register_furnace_recipe"
+ * ScriptEvent receiver: "better_smelters:register_furnace_recipe"
  *
  * Allows other addons or scripts to dynamically add or replace furnace recipes.
  * If the item already exists in `furnaceRecipes`, it will be replaced.
@@ -401,7 +357,7 @@ export const furnaceRecipes = {
  * - Only a summary log is printed when finished.
  */
 system.afterEvents.scriptEventReceive.subscribe(({ id, message }) => {
-    if (id !== "utilitycraft:register_furnace_recipe") return;
+    if (id !== "better_smelters:register_furnace_recipe") return;
 
     try {
         const payload = JSON.parse(message);
@@ -443,28 +399,29 @@ world.afterEvents.worldLoad.subscribe(() => {
     };
 
     // Send the event to the furnace script
-    system.sendScriptEvent("utilitycraft:register_furnace_recipe", JSON.stringify(newRecipes));
+    system.sendScriptEvent("better_smelters:register_furnace_recipe", JSON.stringify(newRecipes));
 
     console.warn("[Addon] Custom furnace recipes registered via system event.");
 });
 
 // You can also do this directly with a command inside Minecraft:
 Command:
-/scriptevent utilitycraft:register_furnace_recipe {"minecraft:stone":{"output":"minecraft:smooth_stone"},"minecraft:cobblestone":{"output":"minecraft:deepslate"}}
+/scriptevent better_smelters:register_furnace_recipe {"minecraft:stone":{"output":"minecraft:smooth_stone"},"minecraft:cobblestone":{"output":"minecraft:deepslate"}}
 */
 
 
 /**
- * Represents a solid fuel entry for the Furnator.
+ * Represents a solid fuel entry for Better Smelters.
  *
  * @typedef {Object} SolidFuel
  * @property {string} id  The item identifier or keyword (e.g. "coal", "plank").
- * @property {number} de  Dorios Energy (DE) produced when consumed.
+ * @property {number} value  Burn value consumed by a furnace.
+ * @property {string} [transformToItem] Item left behind after consuming this fuel.
  */
 
 /**
- * Solid fuels used by the Furnator generator.
- * Each entry defines the item ID (or pattern) and the energy produced (in DE).
+ * Solid fuels used by Better Smelters furnaces.
+ * Each entry defines the item ID (or pattern) and its burn value.
  *
  * @constant
  * @type {SolidFuel[]}
@@ -508,7 +465,7 @@ export const solidFuels = [
 ];
 
 /**
- * ScriptEvent receiver: "utilitycraft:register_fuel"
+ * ScriptEvent receiver: "better_smelters:register_fuel"
  *
  * Allows other addons or scripts to dynamically add or replace solid fuels.
  * If a fuel with the same ID already exists, it will be replaced.
@@ -527,7 +484,7 @@ export const solidFuels = [
  * - Only a summary log is printed when finished.
  */
 system.afterEvents.scriptEventReceive.subscribe(({ id, message }) => {
-    if (id !== "utilitycraft:register_fuel") return;
+    if (id !== "better_smelters:register_fuel") return;
 
     try {
         const payload = JSON.parse(message);
@@ -536,28 +493,25 @@ system.afterEvents.scriptEventReceive.subscribe(({ id, message }) => {
         let added = 0;
         let replaced = 0;
 
-        for (const [fuelId, de] of Object.entries(payload)) {
-            if (typeof de !== "number") continue;
+        for (const [fuelId, value] of Object.entries(payload)) {
+            if (typeof value !== "number" || value <= 0) continue;
 
             const existing = solidFuels.find(f => f.id === fuelId);
             if (existing) {
-                existing.de = de;
-                console.warn(`[UtilityCraft] Replaced existing fuel '${fuelId}' with ${de} DE.`);
+                existing.value = value;
                 replaced++;
             } else {
-                solidFuels.push({ id: fuelId, de });
+                solidFuels.push({ id: fuelId, value });
                 added++;
             }
         }
-
-        console.warn(`[UtilityCraft] Registered ${added} new and replaced ${replaced} fuels.`);
     } catch (err) {
-        console.warn("[UtilityCraft] Failed to parse fuel registration payload:", err);
+        console.warn("[Better Smelters] Failed to parse fuel registration payload:", err);
     }
 });
 
 // ==================================================
-// EXAMPLES – How to register custom Furnator fuels
+// EXAMPLES – How to register custom Better Smelters fuels
 // ==================================================
 /*
 import { system, world } from "@minecraft/server";
@@ -565,19 +519,19 @@ import { system, world } from "@minecraft/server";
 world.afterEvents.worldLoad.subscribe(() => {
     // Add or replace solid fuels dynamically
     const newFuels = {
-        "utilitycraft:bio_fuel": 12000,
+        "example:bio_fuel": 12000,
         "minecraft:bamboo_block": 4000,
         // This one replaces an existing entry
         "minecraft:coal": 10000
     };
 
-    // Send the event to the Furnator script
-    system.sendScriptEvent("utilitycraft:register_fuel", JSON.stringify(newFuels));
+    // Send the event to Better Smelters
+    system.sendScriptEvent("better_smelters:register_fuel", JSON.stringify(newFuels));
 
-    console.warn("[Addon] Custom Furnator fuels registered via system event.");
+    console.warn("[Addon] Custom Better Smelters fuels registered via system event.");
 });
 
 // You can also do this directly with a command inside Minecraft:
 Command:
-/scriptevent utilitycraft:register_fuel {"utilitycraft:bio_fuel":12000,"minecraft:coal":10000}
+/scriptevent better_smelters:register_fuel {"example:bio_fuel":12000,"minecraft:coal":10000}
 */
