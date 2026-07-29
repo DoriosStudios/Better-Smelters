@@ -32,7 +32,8 @@
 				"family": [
 					"inanimate",
 					"furnace",
-					"better_smelters:furnace"
+					"better_smelters:furnace",
+					"dorios:container"
 				]
 			},
 			"minecraft:fire_immune": true,

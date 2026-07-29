@@ -1,5 +1,8 @@
 import { GameMode, ItemStack, system, world } from "@minecraft/server";
 import { baseSettings, furnaceRecipes, furnaces, solidFuels, upgrades } from "./config.js";
+import * as DoriosLib from "./DoriosLib/index.js";
+
+DoriosLib.container.initialize();
 
 const FURNACE_ENTITY_ID = "better_smelters:furnace";
 const FURNACE_COMPONENT_ID = "better_smelters:furnace";
@@ -18,7 +21,26 @@ const NETHER_STAR_CLOSED_TICK_INTERVAL = 4;
 const NETHER_STAR_FURNACE_ID = "better_smelters:nether_star_furnace";
 const OAK_FURNACE_ID = "better_smelters:oak_wood_furnace";
 const FURNACE_IDS = new Set(furnaces);
+const REGISTERED_FURNACE_CONTAINERS = new Set();
 const EPSILON = 0.000001;
+const FACE_OFFSETS = {
+  north: [0, 0, -1],
+  south: [0, 0, 1],
+  east: [1, 0, 0],
+  west: [-1, 0, 0],
+  up: [0, 1, 0],
+  down: [0, -1, 0],
+};
+const OPPOSITE_FACES = {
+  north: "south",
+  south: "north",
+  east: "west",
+  west: "east",
+  up: "down",
+  down: "up",
+};
+const HORIZONTAL_FACES = ["north", "south", "east", "west"];
+const OUTPUT_FACES = [...HORIZONTAL_FACES, "up", "down"];
 
 function getFurnaceNameTag(typeId) {
   const tier = typeId.split(":")[1].replace(/_furnace$/, "");
@@ -57,6 +79,7 @@ function initializeFurnaceEntity(entity, furnaceTypeId) {
   entity.setDynamicProperty("better_smelters:fuelV", 0);
   entity.setDynamicProperty("better_smelters:progress", 0);
   entity.setProperty(UI_VIEWERS_PROPERTY, 0);
+  configureFurnaceContainer(entity);
   return inventory;
 }
 
@@ -97,12 +120,18 @@ world.afterEvents.entityContainerClosed.subscribe(({ entity }) => {
   updateFurnaceOpenState(entity, -1);
 });
 
+world.afterEvents.entityRemove.subscribe(({ removedEntityId }) => {
+  REGISTERED_FURNACE_CONTAINERS.delete(removedEntityId);
+});
+
 world.afterEvents.worldLoad.subscribe(() => {
   system.run(() => {
     for (const dimensionId of ["overworld", "nether", "the_end"]) {
       const dimension = world.getDimension(dimensionId);
       for (const entity of dimension.getEntities({ type: FURNACE_ENTITY_ID })) {
         resetFurnaceOpenState(entity);
+        const block = getFurnaceBlock(entity);
+        if (block) configureFurnaceContainer(entity);
       }
     }
   });
@@ -111,8 +140,12 @@ world.afterEvents.worldLoad.subscribe(() => {
 system.beforeEvents.startup.subscribe(({ blockComponentRegistry }) => {
   blockComponentRegistry.registerCustomComponent(FURNACE_COMPONENT_ID, {
     onPlace({ block }) {
-      const entity = getFurnaceEntity(block) ?? spawnFurnaceEntity(block);
-      entity.nameTag = getFurnaceNameTag(block.typeId);
+      const existingEntity = getFurnaceEntity(block);
+      const entity = existingEntity ?? spawnFurnaceEntity(block);
+      if (existingEntity) {
+        entity.nameTag = getFurnaceNameTag(block.typeId);
+        configureFurnaceContainer(entity);
+      }
       setBooleanState(block, UI_OPEN_STATE, false);
     },
 
@@ -257,9 +290,16 @@ function tickFurnace(block, settings) {
   const inventory = entity?.getComponent("minecraft:inventory")?.container;
   if (!entity || !inventory) return;
 
-  pullItems(block, inventory, FUEL_SLOT, "fuel");
-  pullItems(block, inventory, INPUT_SLOT, "input", "leftRight");
-  pushOutput(block, inventory, "leftRight");
+  const containerReady = REGISTERED_FURNACE_CONTAINERS.has(entity.id)
+    || configureFurnaceContainer(entity);
+  if (containerReady) {
+    pullItems(block, entity, FUEL_SLOT, "up");
+    pullItems(block, entity, FUEL_SLOT, "down");
+    for (const face of HORIZONTAL_FACES) {
+      pullItems(block, entity, INPUT_SLOT, face);
+    }
+    for (const face of OUTPUT_FACES) pushOutput(block, entity, face);
+  }
 
   const inputItem = inventory.getItem(INPUT_SLOT);
   const outputItem = inventory.getItem(OUTPUT_SLOT);
@@ -334,83 +374,93 @@ function spawnFurnaceParticles(block) {
   });
 }
 
-function getOffsetsByMode(block, directionMode) {
-  const facing = block.permutation.getState("minecraft:cardinal_direction");
-  const directions = {
-    north: { front: [0, 0, 1], back: [0, 0, -1], left: [1, 0, 0], right: [-1, 0, 0] },
-    south: { front: [0, 0, -1], back: [0, 0, 1], left: [-1, 0, 0], right: [1, 0, 0] },
-    west: { front: [1, 0, 0], back: [-1, 0, 0], left: [0, 0, -1], right: [0, 0, 1] },
-    east: { front: [-1, 0, 0], back: [1, 0, 0], left: [0, 0, 1], right: [0, 0, -1] },
-  }[facing];
-
-  if (!directions) return undefined;
-  return directionMode === "leftRight"
-    ? { input: directions.left, output: directions.right }
-    : { input: directions.front, output: directions.back };
+function configureFurnaceContainer(entity) {
+  try {
+    // DoriosLib calls this schema "complex" because it is face-aware. The
+    // mapping itself is fixed: Better Smelters has no configurable IO modes.
+    const registered = DoriosLib.container.setConfig(entity, {
+      version: 1,
+      type: "complex",
+      anyInputSlots: [],
+      anyOutputSlots: [],
+      inputConfig: {
+        up: [FUEL_SLOT],
+        down: [FUEL_SLOT],
+        north: [INPUT_SLOT],
+        south: [INPUT_SLOT],
+        east: [INPUT_SLOT],
+        west: [INPUT_SLOT],
+      },
+      outputConfig: {
+        north: [OUTPUT_SLOT],
+        south: [OUTPUT_SLOT],
+        east: [OUTPUT_SLOT],
+        west: [OUTPUT_SLOT],
+        up: [OUTPUT_SLOT],
+        down: [OUTPUT_SLOT],
+      },
+    });
+    if (registered) REGISTERED_FURNACE_CONTAINERS.add(entity.id);
+    return registered;
+  } catch (error) {
+    console.warn(`[Better Smelters] Failed to register furnace container: ${error}`);
+    return false;
+  }
 }
 
-function pullItems(block, inventory, targetSlot, type, directionMode = "frontBack") {
-  const offsets = getOffsetsByMode(block, directionMode);
-  if (!offsets) return;
+function getAdjacentLocation(block, face) {
+  const offset = FACE_OFFSETS[face];
+  if (!offset) return undefined;
 
   const { x, y, z } = block.location;
-  const offset = type === "fuel" ? [0, 1, 0] : offsets.input;
-  const sourceBlock = block.dimension.getBlock({
+  return {
     x: x + offset[0],
     y: y + offset[1],
     z: z + offset[2],
-  });
-  const source = sourceBlock?.getComponent("minecraft:inventory")?.container;
-  if (!source) return;
-
-  const targetItem = inventory.getItem(targetSlot);
-  for (let slot = 0; slot < source.size; slot++) {
-    let sourceItem = source.getItem(slot);
-    if (!sourceItem || (targetItem && !targetItem.isStackableWith(sourceItem))) continue;
-
-    const maxAmount = targetItem?.maxAmount ?? sourceItem.maxAmount;
-    const amount = Math.min(sourceItem.amount, maxAmount - (targetItem?.amount ?? 0));
-    if (amount <= 0) continue;
-
-    if (targetItem) {
-      targetItem.amount += amount;
-      inventory.setItem(targetSlot, targetItem);
-    } else {
-      const movedItem = sourceItem.clone();
-      movedItem.amount = amount;
-      inventory.setItem(targetSlot, movedItem);
-    }
-
-    if (sourceItem.amount > amount) {
-      sourceItem.amount -= amount;
-      source.setItem(slot, sourceItem);
-    } else {
-      source.setItem(slot, undefined);
-    }
-    return;
-  }
+  };
 }
 
-function pushOutput(block, inventory, directionMode = "frontBack") {
-  const outputItem = inventory.getItem(OUTPUT_SLOT);
-  const offsets = getOffsetsByMode(block, directionMode);
-  if (!outputItem || !offsets) return;
+function pullItems(block, entity, targetSlot, targetFace) {
+  const sourceLocation = getAdjacentLocation(block, targetFace);
+  if (!sourceLocation) return false;
 
-  const { x, y, z } = block.location;
-  const [offsetX, offsetY, offsetZ] = offsets.output;
-  const targetBlock = block.dimension.getBlock({
-    x: x + offsetX,
-    y: y + offsetY,
-    z: z + offsetZ,
-  });
-  const target = targetBlock?.getComponent("minecraft:inventory")?.container;
-  if (!target) return;
+  const source = DoriosLib.container.resolveAt(block.dimension, sourceLocation);
+  if (!source) return false;
 
-  try {
-    inventory.setItem(OUTPUT_SLOT, target.addItem(outputItem));
-  } catch {
-    // The target container may have become invalid during this tick.
+  const targetSlots = DoriosLib.container.getInputSlots(entity, { face: targetFace });
+  if (!targetSlots.includes(targetSlot)) return false;
+
+  const sourceFace = OPPOSITE_FACES[targetFace];
+  for (const sourceSlot of DoriosLib.container.getOutputSlots(source, { face: sourceFace })) {
+    const moved = DoriosLib.container.transfer(source, {
+      sourceSlot,
+      target: entity,
+      targetFace,
+    });
+    if (moved > 0) return true;
   }
+
+  return false;
+}
+
+function pushOutput(block, entity, outputFace) {
+  const targetLocation = getAdjacentLocation(block, outputFace);
+  if (!targetLocation) return false;
+
+  const target = DoriosLib.container.resolveAt(block.dimension, targetLocation);
+  if (!target) return false;
+
+  const targetFace = OPPOSITE_FACES[outputFace];
+  for (const sourceSlot of DoriosLib.container.getOutputSlots(entity, { face: outputFace })) {
+    const moved = DoriosLib.container.transfer(entity, {
+      sourceSlot,
+      target,
+      targetFace,
+    });
+    if (moved > 0) return true;
+  }
+
+  return false;
 }
 
 function dropInventorySlots(block, inventory, slots) {

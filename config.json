@@ -50,11 +50,11 @@
 		"filterDefinitions": {
 			"bundle_scripts": {
 				"runWith": "shell",
-				"command": "npx esbuild BP/scripts/main.js --outfile=BP/scripts/__bundle.js --bundle --format=esm --target=es2020 --log-level=warning --external:@minecraft/server --preserve-symlinks"
+				"command": "npx esbuild BP/scripts/main.js --outfile=BP/scripts/__bundle.js --bundle --format=esm --target=es2020 --log-level=warning --alias:DoriosLib=./BP/scripts/DoriosLib --external:@minecraft/server --preserve-symlinks"
 			},
 			"minify_bundle_scripts": {
 				"runWith": "shell",
-				"command": "npx esbuild BP/scripts/main.js --outfile=BP/scripts/__bundle.js --bundle --format=esm --target=es2020 --minify --legal-comments=none --log-level=warning --external:@minecraft/server --preserve-symlinks"
+				"command": "npx esbuild BP/scripts/main.js --outfile=BP/scripts/__bundle.js --bundle --format=esm --target=es2020 --minify --legal-comments=none --log-level=warning --alias:DoriosLib=./BP/scripts/DoriosLib --external:@minecraft/server --preserve-symlinks"
 			},
 			"use_bundle_entry": {
 				"runWith": "shell",
