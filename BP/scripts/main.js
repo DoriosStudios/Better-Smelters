@@ -468,7 +468,9 @@ function dropInventorySlots(block, inventory, slots) {
   const dropLocation = { x: x + 0.5, y: y + 0.25, z: z + 0.5 };
   for (const slot of slots) {
     const item = inventory.getItem(slot);
-    if (item) block.dimension.spawnItem(item, dropLocation);
+    if (!item) continue;
+    block.dimension.spawnItem(item, dropLocation);
+    inventory.setItem(slot, undefined);
   }
 }
 
@@ -477,18 +479,10 @@ function dropFurnaceContents(block) {
   const inventory = entity?.getComponent("minecraft:inventory")?.container;
   if (!entity || !inventory) return;
 
-  const drops = [FUEL_SLOT, INPUT_SLOT, OUTPUT_SLOT]
-    .map((slot) => inventory.getItem(slot))
-    .filter(Boolean);
-  const { x, y, z } = block.location;
-  const dropLocation = { x: x + 0.5, y: y + 0.25, z: z + 0.5 };
-
-  system.run(() => {
-    for (const item of drops) block.dimension.spawnItem(item, dropLocation);
-    try {
-      entity.remove();
-    } catch {}
-  });
+  dropInventorySlots(block, inventory, [FUEL_SLOT, INPUT_SLOT, OUTPUT_SLOT]);
+  try {
+    entity.remove();
+  } catch {}
 }
 
 function destroyOakFurnace(block, entity, inventory) {
