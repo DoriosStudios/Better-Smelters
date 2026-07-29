@@ -39,8 +39,12 @@ const OPPOSITE_FACES = {
   up: "down",
   down: "up",
 };
-const HORIZONTAL_FACES = ["north", "south", "east", "west"];
-const OUTPUT_FACES = [...HORIZONTAL_FACES, "up", "down"];
+const AUTOMATION_FACES_BY_FACING = {
+  north: { input: "east", output: "west" },
+  south: { input: "west", output: "east" },
+  west: { input: "north", output: "south" },
+  east: { input: "south", output: "north" },
+};
 
 function getFurnaceNameTag(typeId) {
   const tier = typeId.split(":")[1].replace(/_furnace$/, "");
@@ -294,11 +298,11 @@ function tickFurnace(block, settings) {
     || configureFurnaceContainer(entity);
   if (containerReady) {
     pullItems(block, entity, FUEL_SLOT, "up");
-    pullItems(block, entity, FUEL_SLOT, "down");
-    for (const face of HORIZONTAL_FACES) {
-      pullItems(block, entity, INPUT_SLOT, face);
+    const automationFaces = getAutomationFaces(block);
+    if (automationFaces) {
+      pullItems(block, entity, INPUT_SLOT, automationFaces.input);
+      pushOutput(block, entity, automationFaces.output);
     }
-    for (const face of OUTPUT_FACES) pushOutput(block, entity, face);
   }
 
   const inputItem = inventory.getItem(INPUT_SLOT);
@@ -406,6 +410,11 @@ function configureFurnaceContainer(entity) {
     console.warn(`[Better Smelters] Failed to register furnace container: ${error}`);
     return false;
   }
+}
+
+function getAutomationFaces(block) {
+  const facing = block.permutation.getState("minecraft:cardinal_direction");
+  return AUTOMATION_FACES_BY_FACING[facing];
 }
 
 function getAdjacentLocation(block, face) {
