@@ -33,31 +33,31 @@
 			"minecraft:geometry": "minecraft:geometry.full_block",
 			"minecraft:material_instances": {
 				"*": {
-					"texture": "better_smelters_nether_star_furnace_off_north",
+					"texture": "better_smelters_nether_star_furnace_front",
 					"render_method": "alpha_test"
 				},
 				"north": {
-					"texture": "better_smelters_nether_star_furnace_off_north",
+					"texture": "better_smelters_nether_star_furnace_front",
 					"render_method": "alpha_test"
 				},
 				"south": {
-					"texture": "better_smelters_nether_star_furnace_off_south",
+					"texture": "better_smelters_nether_star_furnace_side",
 					"render_method": "alpha_test"
 				},
 				"east": {
-					"texture": "better_smelters_nether_star_furnace_off_east",
+					"texture": "better_smelters_nether_star_furnace_side",
 					"render_method": "alpha_test"
 				},
 				"west": {
-					"texture": "better_smelters_nether_star_furnace_off_west",
+					"texture": "better_smelters_nether_star_furnace_side",
 					"render_method": "alpha_test"
 				},
 				"up": {
-					"texture": "better_smelters_nether_star_furnace_off_up",
+					"texture": "better_smelters_nether_star_furnace_up",
 					"render_method": "alpha_test"
 				},
 				"down": {
-					"texture": "better_smelters_nether_star_furnace_off_down",
+					"texture": "better_smelters_nether_star_furnace_down",
 					"render_method": "alpha_test"
 				}
 			},
@@ -140,31 +140,31 @@
 				"components": {
 					"minecraft:material_instances": {
 						"*": {
-							"texture": "better_smelters_nether_star_furnace_on_north",
+							"texture": "better_smelters_nether_star_furnace_front_on",
 							"render_method": "alpha_test"
 						},
 						"north": {
-							"texture": "better_smelters_nether_star_furnace_on_north",
+							"texture": "better_smelters_nether_star_furnace_front_on",
 							"render_method": "alpha_test"
 						},
 						"south": {
-							"texture": "better_smelters_nether_star_furnace_on_south",
+							"texture": "better_smelters_nether_star_furnace_side",
 							"render_method": "alpha_test"
 						},
 						"east": {
-							"texture": "better_smelters_nether_star_furnace_on_east",
+							"texture": "better_smelters_nether_star_furnace_side",
 							"render_method": "alpha_test"
 						},
 						"west": {
-							"texture": "better_smelters_nether_star_furnace_on_west",
+							"texture": "better_smelters_nether_star_furnace_side",
 							"render_method": "alpha_test"
 						},
 						"up": {
-							"texture": "better_smelters_nether_star_furnace_on_up",
+							"texture": "better_smelters_nether_star_furnace_up",
 							"render_method": "alpha_test"
 						},
 						"down": {
-							"texture": "better_smelters_nether_star_furnace_on_down",
+							"texture": "better_smelters_nether_star_furnace_down",
 							"render_method": "alpha_test"
 						}
 					},

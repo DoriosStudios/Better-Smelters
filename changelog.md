@@ -1,3 +1,12 @@
+# Better Smelters v1.5.2
+
+## CHANGED
+- Consolidated each furnace tier into one shared texture folder, with only the front face retaining a separate active-state texture.
+- Consolidated the identical south, east, and west faces into one shared side texture per furnace tier.
+- Removed duplicated active-state and lateral textures and simplified furnace texture identifiers.
+
+---
+
 # Better Smelters v1.5.1
 
 ## COMPATIBILITY
