@@ -101,66 +101,6 @@ export const furnaceRecipes = {
     "minecraft:kelp": {
         output: "minecraft:dried_kelp"
     },
-    "minecraft:rotten_flesh": {
-        output: "strat:coagulated_blood"
-    },
-    "artifacts:everlasting_beef": {
-        output: "artifacts:eternal_steak"
-    },
-    "bg:draconium_dust": {
-        output: "bg:draconium_ingot"
-    },
-    "auxillium:amberine_ore": {
-        output: "auxillium:amberine"
-    },
-    "auxillium:nether_amberine_ore": {
-        output: "auxillium:amberine"
-    },
-    "auxillium:deepslate_amberine_ore": {
-        output: "auxillium:amberine"
-    },
-    "auxillium:aurorus_ore": {
-        output: "auxillium:aurorus"
-    },
-    "auxillium:deepslate_aurorus_ore": {
-        output: "auxillium:aurorus"
-    },
-    "auxillium:auxillium_ore": {
-        output: "auxillium:auxillium"
-    },
-    "auxillium:deepslate_auxillium_ore": {
-        output: "auxillium:aurxillium"
-    },
-    "auxillium:cosmium_ore": {
-        output: "auxillium:cosmium"
-    },
-    "auxillium:deepslate_cosmium_ore": {
-        output: "auxillium:cosmium"
-    },
-    "auxillium:necrite_ore": {
-        output: "auxillium:necrite"
-    },
-    "strat:raw_ardite": {
-        output: "strat:ardite_ingot"
-    },
-    "strat:raw_aluminium": {
-        output: "strat:aluminium_ingot"
-    },
-    "strat:aluminium_ore": {
-        output: "strat:aluminium_ingot"
-    },
-    "strat:raw_cobalt": {
-        output: "strat:cobalt_ingot"
-    },
-    "strat:cobalt_ore": {
-        output: "strat:cobalt_ingot"
-    },
-    "strat:grout": {
-        output: "strat:seared_brick"
-    },
-    "strat:nether_grout": {
-        output: "strat:seared_brick"
-    },
     "minecraft:raw_iron": {
         output: "minecraft:iron_ingot"
     },
@@ -338,10 +278,12 @@ export const furnaceRecipes = {
 }
 
 /**
- * ScriptEvent receiver: "better_smelters:register_furnace_recipe"
+ * ScriptEvent receiver: "utilitycraft:register_furnace_recipe"
  *
- * Allows other addons or scripts to dynamically add or replace furnace recipes.
+ * Allows UtilityCraft and other addons to dynamically add or replace furnace recipes.
  * If the item already exists in `furnaceRecipes`, it will be replaced.
+ * Better Smelters only keeps the output identifier. Recipe energy cost, input
+ * quantity, and output amount remain specific to UtilityCraft.
  *
  * Expected payload format (JSON):
  * ```json
@@ -350,33 +292,19 @@ export const furnaceRecipes = {
  *   "minecraft:rotten_flesh": { "output": "strat:coagulated_blood" }
  * }
  * ```
- *
- * Behavior:
- * - New items are created automatically if missing.
- * - Existing items are replaced and logged individually.
- * - Only a summary log is printed when finished.
  */
 system.afterEvents.scriptEventReceive.subscribe(({ id, message }) => {
-    if (id !== "better_smelters:register_furnace_recipe") return;
+    if (id !== "utilitycraft:register_furnace_recipe") return;
 
     try {
         const payload = JSON.parse(message);
-        if (!payload || typeof payload !== "object") return;
-
-        let added = 0;
-        let replaced = 0;
+        if (!payload || typeof payload !== "object" || Array.isArray(payload)) return;
 
         for (const [inputId, data] of Object.entries(payload)) {
+            if (!data || typeof data !== "object" || Array.isArray(data)) continue;
             if (!data.output || typeof data.output !== "string") continue;
 
-            if (furnaceRecipes[inputId]) {
-                replaced++;
-            } else {
-                added++;
-            }
-
-            // Directly assign; machine will handle defaults
-            furnaceRecipes[inputId] = data;
+            furnaceRecipes[inputId] = { output: data.output };
         }
     } catch (err) {
         console.warn("[Better Smelters] Failed to parse furnace registration payload:", err);
@@ -398,15 +326,15 @@ world.afterEvents.worldLoad.subscribe(() => {
         "minecraft:cobblestone": { output: "minecraft:deepslate" }
     };
 
-    // Send the event to the furnace script
-    system.sendScriptEvent("better_smelters:register_furnace_recipe", JSON.stringify(newRecipes));
+    // Send the shared event consumed by UtilityCraft and Better Smelters
+    system.sendScriptEvent("utilitycraft:register_furnace_recipe", JSON.stringify(newRecipes));
 
     console.warn("[Addon] Custom furnace recipes registered via system event.");
 });
 
 // You can also do this directly with a command inside Minecraft:
 Command:
-/scriptevent better_smelters:register_furnace_recipe {"minecraft:stone":{"output":"minecraft:smooth_stone"},"minecraft:cobblestone":{"output":"minecraft:deepslate"}}
+/scriptevent utilitycraft:register_furnace_recipe {"minecraft:stone":{"output":"minecraft:smooth_stone"},"minecraft:cobblestone":{"output":"minecraft:deepslate"}}
 */
 
 

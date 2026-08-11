@@ -1,3 +1,12 @@
+# Better Smelters v1.5.1
+
+## COMPATIBILITY
+- Removed bundled recipes for third-party content; those integrations can now register their own recipes through the shared runtime registry.
+- Replaced the Better Smelters-specific furnace recipe event with the shared `utilitycraft:register_furnace_recipe` registry.
+- Better Smelters now receives furnace recipes registered by UtilityCraft and compatible addons while preserving its own fuel costs and 1:1 processing behavior.
+
+---
+
 # Better Smelters v1.5.0
 
 This update reworks furnace behavior, improves visuals and interfaces, expands localization, and introduces native automation compatibility with UtilityCraft Item Pipes and other compatible addons.
