@@ -1,0 +1,46 @@
+{
+  "$schema": "https://raw.githubusercontent.com/DoriosStudios/Dorios-Workflows/v1.0.2/releases/schemas/project.schema.json",
+  "schemaVersion": 1,
+  "project": {
+    "name": "Better Smelters",
+    "slug": "smelters"
+  },
+  "release": {
+    "changelogPath": "changelog.md",
+    "defaultChannel": "stable",
+    "bedrockManifestPaths": [
+      "BP/manifest.json",
+      "RP/manifest.json"
+    ]
+  },
+  "build": {
+    "enabled": true,
+    "type": "regolith",
+    "developmentProfile": "buildDev",
+    "releaseProfile": "buildMinify",
+    "outputDirectory": "build",
+    "packDirectories": [
+      "Better Smelters BP",
+      "Better Smelters RP"
+    ]
+  },
+  "distribution": {
+    "github": true,
+    "curseforge": {
+      "enabled": true,
+      "projectId": 1241687,
+      "gameVersion": "26.30"
+    }
+  },
+  "links": {
+    "website": "https://doriosstudios.com/projects/smelters/",
+    "curseforge": "https://www.curseforge.com/minecraft-bedrock/addons/better-smelters",
+    "mcpedl": "https://mcpedl.com/better-smelters/"
+  },
+  "announcement": {
+    "enabled": true,
+    "color": "705030",
+    "imageUrl": "https://doriosstudios.com/img/addons/smelters/MCPEDL.png",
+    "automaticDelayMinutes": 60
+  }
+}

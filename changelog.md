@@ -1,5 +1,12 @@
 # Better Smelters v1.5.2
 
+This update streamlines Better Smelters' texture assets while preserving the distinct active furnace fronts.
+
+## HIGHLIGHTS
+- Simplified the texture layout shared by every furnace tier.
+- Preserved separate active-state front textures for clear processing feedback.
+- Removed duplicated side and active-state texture assets.
+
 ## CHANGED
 - Consolidated each furnace tier into one shared texture folder, with only the front face retaining a separate active-state texture.
 - Consolidated the identical south, east, and west faces into one shared side texture per furnace tier.
