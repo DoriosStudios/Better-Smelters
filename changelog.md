@@ -1,5 +1,8 @@
 # Better Smelters v1.5.3
 
+## HIGHLIGHTS
+- Restored the complete furnace upgrade path beyond the initial Copper and Iron tiers.
+
 ## FIXED
 - Restored upgrade-item interactions on custom furnaces, allowing every upgrade after the initial Vanilla Furnace tier to work again.
 
