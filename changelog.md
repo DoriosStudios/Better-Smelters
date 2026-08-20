@@ -1,5 +1,7 @@
 # Better Smelters v1.5.3
 
+This release restores the complete upgrade path for Better Smelters furnaces.
+
 ## HIGHLIGHTS
 - Restored the complete furnace upgrade path beyond the initial Copper and Iron tiers.
 
