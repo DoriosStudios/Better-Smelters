@@ -1,3 +1,10 @@
+# Better Smelters v1.5.3
+
+## FIXED
+- Restored upgrade-item interactions on custom furnaces, allowing every upgrade after the initial Vanilla Furnace tier to work again.
+
+---
+
 # Better Smelters v1.5.2
 
 This update streamlines Better Smelters' texture assets while preserving the distinct active furnace fronts.

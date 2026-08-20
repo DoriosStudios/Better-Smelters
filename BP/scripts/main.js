@@ -157,6 +157,10 @@ system.beforeEvents.startup.subscribe(({ blockComponentRegistry }) => {
       tickFurnace(block, settings);
     },
 
+    // Register the interaction hook so Bedrock forwards interactions with
+    // custom furnaces to world.afterEvents.playerInteractWithBlock.
+    onPlayerInteract() {},
+
     onPlayerBreak({ block }) {
       dropFurnaceContents(block);
     },
