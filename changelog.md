@@ -1,3 +1,15 @@
+# Better Smelters v1.5.4
+
+This maintenance update improves stability and performance across Better Smelters.
+
+## CHANGED
+- Made minor optimizations across the add-on.
+
+## FIXED
+- Fixed several bugs affecting the add-on.
+
+---
+
 # Better Smelters v1.5.3
 
 This release restores the complete upgrade path for Better Smelters furnaces.
