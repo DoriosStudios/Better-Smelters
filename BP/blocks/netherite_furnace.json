@@ -15,6 +15,7 @@
 				}
 			},
 			"states": {
+				"better_smelters:has_selection": [true, false],
 				"better_smelters:on": [
 					false,
 					true
@@ -76,6 +77,10 @@
 			"tag:dorios:item": {}
 		},
 		"permutations": [
+			{
+				"condition": "!q.block_state('better_smelters:has_selection')",
+				"components": { "minecraft:selection_box": false }
+			},
 			{
 				"condition": "q.block_state('minecraft:cardinal_direction') == 'north' ",
 				"components": {

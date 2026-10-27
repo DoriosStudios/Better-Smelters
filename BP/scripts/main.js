@@ -1,10 +1,10 @@
 import { GameMode, ItemStack, system, world } from "@minecraft/server";
-import { baseSettings, furnaceRecipes, furnaces, solidFuels, upgrades } from "./config.js";
+import { baseSettings, furnaceRecipes, solidFuels, upgrades } from "./config.js";
 import * as DoriosLib from "./DoriosLib/index.js";
+import { FURNACE_ENTITY_ID, getFurnaceBlock, resetFurnaceSelection } from "./furnaceSelection.js";
 
 DoriosLib.container.initialize();
 
-const FURNACE_ENTITY_ID = "better_smelters:furnace";
 const FURNACE_COMPONENT_ID = "better_smelters:furnace";
 const UI_OPEN_STATE = "better_smelters:ui_open";
 const UI_VIEWERS_PROPERTY = "better_smelters:ui_viewers";
@@ -20,7 +20,6 @@ const CLOSED_TICK_INTERVAL = 20;
 const NETHER_STAR_CLOSED_TICK_INTERVAL = 4;
 const NETHER_STAR_FURNACE_ID = "better_smelters:nether_star_furnace";
 const OAK_FURNACE_ID = "better_smelters:oak_wood_furnace";
-const FURNACE_IDS = new Set(furnaces);
 const REGISTERED_FURNACE_CONTAINERS = new Set();
 const EPSILON = 0.000001;
 const FACE_OFFSETS = {
@@ -57,16 +56,6 @@ function getFurnaceEntity(block) {
     .find((entity) => entity.typeId === FURNACE_ENTITY_ID);
 }
 
-function getFurnaceBlock(entity) {
-  const { x, y, z } = entity.location;
-  const block = entity.dimension.getBlock({
-    x: Math.floor(x),
-    y: Math.floor(y),
-    z: Math.floor(z),
-  });
-  return block && FURNACE_IDS.has(block.typeId) ? block : undefined;
-}
-
 function setBooleanState(block, stateId, value) {
   if (!block || block.permutation.getState(stateId) === value) return;
   block.setPermutation(block.permutation.withState(stateId, value));
@@ -91,7 +80,7 @@ function spawnFurnaceEntity(block, furnaceTypeId = block.typeId) {
   const { x, y, z } = block.location;
   const entity = block.dimension.spawnEntity(FURNACE_ENTITY_ID, {
     x: x + 0.5,
-    y: y + 0.25,
+    y,
     z: z + 0.5,
   });
   initializeFurnaceEntity(entity, furnaceTypeId);
@@ -133,6 +122,7 @@ world.afterEvents.worldLoad.subscribe(() => {
     for (const dimensionId of ["overworld", "nether", "the_end"]) {
       const dimension = world.getDimension(dimensionId);
       for (const entity of dimension.getEntities({ type: FURNACE_ENTITY_ID })) {
+        resetFurnaceSelection(entity);
         resetFurnaceOpenState(entity);
         const block = getFurnaceBlock(entity);
         if (block) configureFurnaceContainer(entity);
@@ -147,6 +137,7 @@ system.beforeEvents.startup.subscribe(({ blockComponentRegistry }) => {
       const existingEntity = getFurnaceEntity(block);
       const entity = existingEntity ?? spawnFurnaceEntity(block);
       if (existingEntity) {
+        resetFurnaceSelection(entity);
         entity.nameTag = getFurnaceNameTag(block.typeId);
         configureFurnaceContainer(entity);
       }
@@ -506,7 +497,7 @@ function destroyOakFurnace(block, entity, inventory) {
   } catch {}
 }
 
-world.afterEvents.playerInteractWithBlock.subscribe(({ block, itemStack, player }) => {
+function upgradeFurnace(block, itemStack, player) {
   if (!itemStack || !block.typeId.includes("furnace")) return;
   const upgrade = upgrades[itemStack.typeId];
   if (!upgrade || block.typeId !== upgrade.initialF) return;
@@ -539,7 +530,41 @@ world.afterEvents.playerInteractWithBlock.subscribe(({ block, itemStack, player 
   if (player.getGameMode() === GameMode.Survival) {
     player.runCommand(`clear @s ${itemStack.typeId} 0 1`);
   }
+}
+
+world.afterEvents.playerInteractWithBlock.subscribe(({ block, itemStack, player }) => {
+  upgradeFurnace(block, itemStack, player);
 });
+
+// A standing player now targets the inventory entity instead of the block.
+world.beforeEvents.playerInteractWithEntity.subscribe(event => {
+  const { target, player, itemStack } = event;
+  if (target.typeId !== FURNACE_ENTITY_ID || !itemStack) return;
+  const upgrade = upgrades[itemStack.typeId];
+  if (!upgrade || getFurnaceBlock(target)?.typeId !== upgrade.initialF) return;
+  event.cancel = true;
+  system.run(() => {
+    if (!target.isValid || !player.isValid) return;
+    const held = player.getComponent("minecraft:inventory")?.container?.getItem(player.selectedSlotIndex);
+    const block = getFurnaceBlock(target);
+    if (block && held?.typeId === itemStack.typeId) upgradeFurnace(block, held, player);
+  });
+});
+
+// Touching neighboring air must not despawn an inventory; check its owning cell.
+world.afterEvents.dataDrivenEntityTrigger.subscribe(({ entity }) => {
+  system.runTimeout(() => {
+    if (!entity.isValid || entity.typeId !== FURNACE_ENTITY_ID) return;
+    const { x, y, z } = entity.location;
+    const location = { x: Math.floor(x), y: Math.floor(y), z: Math.floor(z) };
+    if (!entity.dimension.isChunkLoaded(location)) return;
+    const block = entity.dimension.getBlock(location);
+    if (!block?.isAir) return;
+    const inventory = entity.getComponent("minecraft:inventory")?.container;
+    if (inventory) dropInventorySlots(block, inventory, [FUEL_SLOT, INPUT_SLOT, OUTPUT_SLOT]);
+    entity.remove();
+  }, 2);
+}, { entityTypes: [FURNACE_ENTITY_ID], eventTypes: ["better_smelters:check_container"] });
 
 system.afterEvents.scriptEventReceive.subscribe(({ id, message, sourceEntity }) => {
   if (id !== "better_smelters:destroy_furnace") return;

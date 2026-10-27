@@ -1,3 +1,19 @@
+This update improves furnace interaction with dedicated selection outlines and preserves furnace upgrades when interacting with their inventories.
+
+<!-- Upcoming release: v1.5.5. -->
+
+## UI/UX
+
+- All 11 furnace tiers now show a selection outline while targeted by a standing player. Sneaking selects the block for mining.
+- Furnace upgrades work when interacting with either the block or its inventory entity.
+
+## BUG FIXES
+
+- Kept furnace interaction boxes within their owning blocks and restored normal selection when chunks reload.
+- Furnace inventories no longer despawn merely because their interaction box touches neighboring air.
+
+---
+
 # Better Smelters v1.5.4
 
 This maintenance update improves stability and performance across Better Smelters.

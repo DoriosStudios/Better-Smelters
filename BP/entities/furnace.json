@@ -7,6 +7,7 @@
 			"is_summonable": true,
 			"is_experimental": false,
 			"properties": {
+				"better_smelters:selection_empty": { "type": "bool", "default": false },
 				"better_smelters:ui_viewers": {
 					"type": "int",
 					"range": [
@@ -19,6 +20,8 @@
 			}
 		},
 		"component_groups": {
+			"better_smelters:selection_full": { "minecraft:collision_box": { "height": 1, "width": 1 } },
+			"better_smelters:selection_empty": { "minecraft:collision_box": { "height": 0, "width": 0 } },
 			"despawn": {
 				"minecraft:instant_despawn": {}
 			}
@@ -55,7 +58,7 @@
 				"max": 1000
 			},
 			"minecraft:collision_box": {
-				"height": 0.5,
+				"height": 1,
 				"width": 1
 			},
 			"minecraft:inventory": {
@@ -78,13 +81,24 @@
 							"name": "air"
 						},
 						"entered_block_event": {
-							"event": "despawn"
+							"event": "better_smelters:check_container"
 						}
 					}
 				]
 			}
 		},
 		"events": {
+			"better_smelters:check_container": {},
+			"better_smelters:selection_full": {
+				"set_property": { "better_smelters:selection_empty": false },
+				"remove": { "component_groups": ["better_smelters:selection_empty"] },
+				"add": { "component_groups": ["better_smelters:selection_full"] }
+			},
+			"better_smelters:selection_empty": {
+				"set_property": { "better_smelters:selection_empty": true },
+				"remove": { "component_groups": ["better_smelters:selection_full"] },
+				"add": { "component_groups": ["better_smelters:selection_empty"] }
+			},
 			"despawn": {
 				"sequence": [
 					{
